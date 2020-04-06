@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<html style="height: 100%;" class="gr__cloud_smartdraw_com PRD" lang="en">
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Workflow Editor</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+      <link id="CDNCss1" type="text/css" rel="stylesheet" href="basicui2_files/sdui-f.css">
+      <link id="CDNCss2" type="text/css" rel="stylesheet" href="basicui2_files/sdui.css">
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <!-- <link rel="stylesheet" type="text/css" href="/sdui/libs/tabulator.min.css"> -->
+      <!-- Loading Screen Styles -->
+      <style type="text/css" media="screen">#_loading{position: fixed;top: 0;left: 0;right: 0;bottom: 0;display: flex;align-items: center;justify-content: center;display: -webkit-flex;-webkit-align-items: center; -webkit-justify-content: center;display: -ms-flexbox;-ms-flex-align: center;-ms-flex-pack: center;}.loaderFrame{width: 100%;max-width: 1200px;min-width: 300px;display: flex;flex-flow: column nowrap;align-items: center;align-content: center;justify-content: center;display: -webkit-flex;-webkit-flex-flow: column nowrap;-webkit-align-items: center;-webkit-align-content: center;-webkit-justify-content: center;display: -ms-flexbox;-ms-align-content: center;-ms-flex-flow: column nowrap;-ms-flex-align: center;-ms-flex-pack: center;}.loader{margin: auto;width: 70px;text-align: center;}.loaderFrame > svg{height: 200px;}.loader > div{width: 18px;height: 18px;background-color: #333;border-radius: 100%;display: inline-block;-webkit-animation: sdui-bouncedelay 1.2s infinite ease-in-out both;animation: sdui-bouncedelay 1.2s infinite ease-in-out both;}.loader .bounce1{-webkit-animation-delay: -0.32s;animation-delay: -0.32s;}.loader .bounce2{-webkit-animation-delay: -0.16s;animation-delay: -0.16s;}@-webkit-keyframes sdui-bouncedelay{0%, 80%, 100%{-webkit-transform: scale(0)}40%{-webkit-transform: scale(1.0)}}@keyframes sdui-bouncedelay{0%, 80%, 100%{-webkit-transform: scale(0);transform: scale(0);}40%{-webkit-transform: scale(1.0);transform: scale(1.0);}}</style>
+      <style type="text/css" id="PageLayout"></style>
+      <!-- New Relic Script -->
+      <!-- New Relic End -->
+   <body data-gr-c-s-loaded="true" style="position: relative; min-height: 100%; top: 0px;" class="">
+      <!-- <div id="_loading" style="display: none;">
+         <div class="loaderFrame">
+             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50%" height="50%" viewBox="0 0 215.665 71.667" enable-background="new 0 0 215.665 71.667" xml:space="preserve">
+                 <g>
+                     <polygon fill="#4991C9" points="27.817,54.527 27.817,42.674 20.167,36.663 12.773,42.59 "></polygon>
+                     <polygon fill="#7FC1FF" points="20.167,36.663 27.817,30.651 27.817,18.798 12.773,30.736 "></polygon>
+                     <polygon fill="#166196" points="12.773,42.59 20.167,36.663 12.773,30.736 "></polygon>
+                     <polygon fill="#4991C9" points="32.15,42.674 32.15,54.527 47.195,42.59 39.8,36.663 "></polygon>
+                     <polygon fill="#7FC1FF" points="32.15,18.798 32.15,30.651 39.8,36.663 47.195,30.736 "></polygon>
+                     <polygon fill="#166196" points="39.8,36.663 47.195,42.59 47.195,30.736 "></polygon>
+                 </g>
+                 <g>
+                     <path fill="#414042" d="M61.604,37.27c-0.954-0.349-1.749-0.9-2.39-1.656c-0.64-0.755-0.959-1.797-0.959-3.123c0-0.768,0.15-1.471,0.453-2.111c0.303-0.64,0.721-1.196,1.256-1.673c0.535-0.478,1.168-0.844,1.901-1.101c0.732-0.254,1.54-0.382,2.424-0.382c1.185,0,2.127,0.081,2.826,0.244c0.698,0.163,1.337,0.373,1.918,0.627c0.349,0.14,0.627,0.355,0.838,0.645c0.208,0.291,0.313,0.623,0.313,0.994c0,0.466-0.163,0.861-0.488,1.187c-0.327,0.326-0.721,0.489-1.187,0.489c-0.28,0-0.559-0.058-0.837-0.175c-0.442-0.209-0.982-0.378-1.622-0.507c-0.641-0.126-1.25-0.191-1.831-0.191c-0.722,0-1.297,0.164-1.728,0.488c-0.431,0.326-0.645,0.791-0.645,1.395c0,0.466,0.144,0.837,0.436,1.118c0.291,0.278,0.623,0.476,0.995,0.592l3.417,1.118c1.164,0.394,2.07,0.986,2.722,1.778c0.649,0.79,0.977,1.826,0.977,3.105c0,0.767-0.152,1.481-0.454,2.144c-0.303,0.662-0.72,1.244-1.255,1.745c-0.535,0.5-1.186,0.89-1.954,1.167c-0.768,0.279-1.617,0.42-2.547,0.42c-1.046,0-1.982-0.088-2.808-0.263c-0.826-0.174-1.565-0.413-2.215-0.714c-0.325-0.164-0.588-0.384-0.785-0.663c-0.198-0.279-0.296-0.593-0.296-0.942c0-0.465,0.168-0.872,0.505-1.221c0.336-0.35,0.75-0.523,1.238-0.523c0.116,0,0.25,0.024,0.402,0.07c0.151,0.047,0.285,0.092,0.402,0.14c0.464,0.256,0.994,0.453,1.587,0.593c0.593,0.139,1.272,0.209,2.04,0.209c1.697,0,2.547-0.604,2.547-1.814c0-0.651-0.226-1.115-0.68-1.395c-0.454-0.28-1.007-0.534-1.657-0.768L61.604,37.27z"></path>
+                     <path fill="#414042" d="M93.209,33.539c0-0.419-0.083-0.809-0.245-1.17c-0.165-0.36-0.379-0.674-0.645-0.941c-0.269-0.267-0.583-0.481-0.942-0.646c-0.361-0.163-0.751-0.244-1.168-0.244c-0.537,0-1.06,0.081-1.571,0.244c-0.511,0.164-0.987,0.383-1.431,0.663v12.349c0,0.512-0.174,0.942-0.522,1.292c-0.349,0.348-0.78,0.523-1.291,0.523c-0.487,0-0.906-0.175-1.254-0.523c-0.351-0.35-0.525-0.78-0.525-1.292v-10.71c0-0.51-0.074-0.929-0.227-1.253c-0.15-0.328-0.361-0.582-0.627-0.768c-0.269-0.186-0.575-0.319-0.924-0.402c-0.349-0.081-0.711-0.122-1.082-0.122c-0.627,0-1.168,0.041-1.623,0.122c-0.453,0.083-0.958,0.204-1.517,0.367v12.767c0,0.512-0.174,0.942-0.522,1.292c-0.349,0.348-0.768,0.523-1.256,0.523c-0.512,0-0.942-0.175-1.292-0.523c-0.349-0.35-0.523-0.78-0.523-1.292v-13.43c0-0.465,0.134-0.889,0.402-1.273c0.268-0.382,0.623-0.668,1.063-0.854c0.907-0.35,1.814-0.605,2.721-0.768c0.908-0.164,1.872-0.244,2.896-0.244c0.838,0,1.617,0.122,2.337,0.365c0.722,0.245,1.349,0.599,1.883,1.064c0.722-0.465,1.495-0.819,2.32-1.064c0.826-0.244,1.68-0.365,2.565-0.365c0.93,0,1.802,0.168,2.615,0.505s1.51,0.797,2.094,1.378c0.581,0.582,1.04,1.278,1.376,2.092c0.337,0.816,0.507,1.688,0.507,2.618v9.976c0,0.512-0.174,0.942-0.523,1.292c-0.351,0.348-0.78,0.523-1.292,0.523c-0.511,0-0.936-0.175-1.272-0.523c-0.337-0.35-0.505-0.78-0.505-1.292V33.539z"></path>
+                     <path fill="#414042" d="M114.103,42.573c0,0.488-0.14,0.924-0.418,1.308c-0.278,0.384-0.651,0.657-1.117,0.819c-0.859,0.303-1.773,0.529-2.736,0.682c-0.966,0.149-1.938,0.227-2.914,0.227c-2.116,0-3.779-0.511-4.988-1.535c-1.21-1.024-1.815-2.408-1.815-4.152c0-1.672,0.604-3.01,1.815-4.01c1.208-1.023,2.872-1.535,4.988-1.535h3.593v-1.222c0-0.743-0.257-1.366-0.768-1.865c-0.511-0.5-1.22-0.75-2.128-0.75c-0.814,0-1.495,0.064-2.04,0.191c-0.547,0.128-1.123,0.378-1.728,0.751c-0.327,0.209-0.651,0.313-0.976,0.313c-0.467,0-0.868-0.151-1.205-0.453c-0.336-0.303-0.504-0.675-0.504-1.117c0-0.326,0.068-0.628,0.208-0.907c0.141-0.279,0.362-0.511,0.664-0.698c0.954-0.535,1.884-0.901,2.792-1.098c0.906-0.198,1.988-0.296,3.243-0.296c0.978,0,1.844,0.163,2.599,0.488c0.756,0.325,1.385,0.761,1.884,1.307c0.501,0.547,0.884,1.182,1.152,1.902c0.267,0.721,0.401,1.464,0.401,2.231V42.573zM110.511,37.688h-3.593c-0.768,0-1.367,0.089-1.797,0.263c-0.429,0.174-0.75,0.383-0.958,0.627c-0.21,0.245-0.339,0.496-0.385,0.751c-0.046,0.255-0.07,0.453-0.07,0.592c0,0.165,0.024,0.379,0.07,0.646c0.046,0.268,0.174,0.53,0.385,0.786c0.208,0.256,0.529,0.476,0.958,0.663c0.43,0.187,1.03,0.279,1.797,0.279c0.605,0,1.214-0.04,1.832-0.123c0.615-0.081,1.202-0.191,1.762-0.331V37.688z"></path>
+                     <path fill="#414042" d="M118.358,32.421c0-0.745,0.134-1.43,0.402-2.058c0.267-0.628,0.634-1.174,1.099-1.64c0.465-0.465,1.012-0.831,1.639-1.099c0.63-0.266,1.314-0.4,2.059-0.4c0.813,0,1.687,0.092,2.617,0.278c0.418,0.094,0.761,0.296,1.028,0.611c0.269,0.314,0.403,0.68,0.403,1.098c0,0.466-0.159,0.861-0.472,1.187s-0.727,0.488-1.238,0.488h-0.279c-0.069,0-0.175-0.023-0.313-0.069c-0.279-0.07-0.572-0.135-0.874-0.193c-0.303-0.058-0.591-0.086-0.871-0.086c-0.441,0-0.82,0.157-1.135,0.471c-0.313,0.313-0.471,0.692-0.471,1.133v11.651c0,0.512-0.174,0.942-0.522,1.292c-0.348,0.348-0.768,0.523-1.255,0.523c-0.513,0-0.941-0.175-1.291-0.523c-0.35-0.35-0.524-0.78-0.524-1.292V32.421z"></path>
+                     <path fill="#414042" d="M130.288,22.271c0-0.511,0.175-0.942,0.524-1.291c0.348-0.349,0.779-0.523,1.291-0.523c0.488,0,0.907,0.175,1.256,0.523c0.348,0.349,0.522,0.779,0.522,1.291v5.301h3.385c0.511,0,0.941,0.163,1.291,0.489c0.349,0.326,0.522,0.732,0.522,1.221c0,0.536-0.169,0.959-0.506,1.273c-0.336,0.314-0.774,0.471-1.307,0.471h-3.385v9.105c0,0.674,0.15,1.202,0.454,1.586c0.303,0.383,0.685,0.576,1.15,0.576c0.256,0,0.466-0.012,0.629-0.035c0.162-0.023,0.308-0.052,0.437-0.087c0.126-0.035,0.248-0.07,0.365-0.104c0.115-0.035,0.256-0.052,0.418-0.052c0.443,0,0.844,0.145,1.205,0.436c0.361,0.292,0.541,0.703,0.541,1.239c0,0.441-0.145,0.814-0.436,1.117c-0.291,0.301-0.657,0.499-1.098,0.593c-0.697,0.139-1.385,0.209-2.06,0.209c-0.72,0-1.396-0.135-2.023-0.401c-0.626-0.269-1.18-0.64-1.657-1.117c-0.476-0.476-0.849-1.047-1.116-1.708c-0.266-0.664-0.402-1.401-0.402-2.216V22.271z"></path>
+                     <path fill="#6D6E71" d="M148.113,45.608c-0.953,0-1.82-0.158-2.597-0.471c-0.779-0.314-1.448-0.751-2.005-1.309c-0.56-0.559-0.99-1.227-1.292-2.007c-0.303-0.78-0.454-1.645-0.454-2.599v-5.406c0-1.955,0.569-3.506,1.709-4.658c1.141-1.15,2.688-1.727,4.639-1.727c0.722,0,1.419,0.095,2.095,0.28c0.674,0.186,1.312,0.442,1.917,0.766v-6.836c0-0.327,0.116-0.604,0.35-0.837c0.232-0.232,0.513-0.349,0.837-0.349c0.327,0,0.605,0.117,0.837,0.349c0.233,0.233,0.349,0.51,0.349,0.837v21.559c0,0.349-0.105,0.663-0.314,0.942s-0.478,0.477-0.803,0.593c-0.837,0.279-1.691,0.493-2.562,0.646C149.945,45.531,149.043,45.608,148.113,45.608z M144.138,39.397c0,1.257,0.349,2.239,1.046,2.949c0.698,0.709,1.675,1.063,2.929,1.063c1.373,0,2.709-0.196,4.012-0.593v-11.79c-0.535-0.511-1.15-0.872-1.847-1.081c-0.697-0.21-1.419-0.315-2.165-0.315c-1.254,0-2.231,0.354-2.929,1.064c-0.697,0.709-1.046,1.691-1.046,2.948V39.397z"></path>
+                     <path fill="#6D6E71" d="M159.381,32.247c0-0.719,0.122-1.377,0.366-1.971c0.243-0.593,0.569-1.098,0.976-1.518c0.407-0.418,0.889-0.744,1.447-0.977c0.559-0.232,1.151-0.349,1.78-0.349c0.791,0,1.627,0.095,2.512,0.28c0.278,0.046,0.505,0.186,0.68,0.418c0.174,0.232,0.262,0.478,0.262,0.731c0,0.327-0.119,0.593-0.348,0.802c-0.235,0.21-0.514,0.314-0.838,0.314c-0.095,0-0.187-0.012-0.279-0.034c-0.094-0.024-0.199-0.048-0.314-0.07c-0.279-0.046-0.554-0.088-0.82-0.122c-0.269-0.035-0.553-0.052-0.855-0.052c-0.606,0-1.123,0.214-1.552,0.645c-0.432,0.431-0.646,1.028-0.646,1.796v12.28c0,0.324-0.118,0.605-0.351,0.837c-0.232,0.232-0.51,0.349-0.835,0.349c-0.327,0-0.605-0.117-0.838-0.349c-0.232-0.232-0.348-0.513-0.348-0.837V32.247z"></path>
+                     <path fill="#6D6E71" d="M182.055,43.201c0,0.349-0.104,0.663-0.314,0.942c-0.208,0.279-0.476,0.477-0.801,0.593c-0.838,0.279-1.691,0.493-2.565,0.646c-0.872,0.149-1.762,0.227-2.667,0.227c-2.116,0-3.733-0.501-4.849-1.501c-1.025-0.906-1.536-2.197-1.536-3.872c0-1.627,0.511-2.917,1.536-3.872c0.535-0.488,1.208-0.843,2.024-1.063c0.813-0.222,1.754-0.333,2.825-0.333h3.976v-2.197c0-1.047-0.337-1.832-1.013-2.354c-0.673-0.525-1.569-0.786-2.685-0.786c-0.697,0-1.373,0.1-2.023,0.296c-0.653,0.198-1.313,0.495-1.989,0.89c-0.187,0.117-0.373,0.174-0.557,0.174c-0.327,0-0.605-0.098-0.838-0.296c-0.232-0.197-0.349-0.471-0.349-0.819c0-0.441,0.196-0.791,0.594-1.048c0.813-0.51,1.66-0.871,2.544-1.081c0.884-0.209,1.759-0.314,2.618-0.314c0.813,0,1.587,0.112,2.321,0.333c0.73,0.22,1.376,0.551,1.935,0.992c0.557,0.441,1,0.995,1.325,1.659c0.326,0.662,0.488,1.435,0.488,2.318V43.201z M179.683,37.166h-3.976c-0.884,0-1.594,0.094-2.128,0.278c-0.536,0.187-0.942,0.431-1.22,0.734c-0.281,0.302-0.461,0.632-0.541,0.994c-0.083,0.36-0.123,0.715-0.123,1.063c0,0.349,0.041,0.71,0.123,1.083c0.08,0.372,0.26,0.714,0.541,1.028c0.278,0.314,0.685,0.571,1.22,0.768c0.535,0.197,1.245,0.296,2.128,0.296c1.349,0,2.673-0.196,3.976-0.593V37.166z"></path>
+                     <path fill="#6D6E71" d="M196.112,31.83l-3.489,12.731c-0.092,0.326-0.26,0.582-0.505,0.768c-0.244,0.186-0.528,0.28-0.855,0.28c-0.325,0-0.609-0.094-0.854-0.28c-0.245-0.186-0.413-0.43-0.506-0.732l-4.64-15.629c-0.047-0.14-0.071-0.254-0.071-0.349c0-0.278,0.107-0.541,0.315-0.784c0.21-0.245,0.5-0.366,0.871-0.366c0.257,0,0.495,0.076,0.716,0.226c0.22,0.151,0.367,0.355,0.437,0.611l3.696,12.976l3.524-12.803c0.092-0.301,0.262-0.55,0.506-0.75c0.244-0.196,0.527-0.297,0.854-0.297s0.612,0.101,0.856,0.297c0.245,0.199,0.412,0.448,0.504,0.75l3.489,12.803l3.698-12.976c0.069-0.255,0.214-0.459,0.436-0.611c0.221-0.15,0.459-0.226,0.715-0.226c0.301,0,0.575,0.11,0.82,0.33c0.244,0.222,0.364,0.496,0.364,0.82c0,0.095-0.022,0.209-0.068,0.349l-4.642,15.629c-0.092,0.302-0.254,0.546-0.487,0.732c-0.233,0.186-0.513,0.28-0.837,0.28c-0.327,0-0.612-0.094-0.856-0.28c-0.242-0.186-0.413-0.441-0.505-0.768L196.112,31.83z"></path>
+                 </g>
+             </svg>
+             <h1 style="color: #666;font: normal 200 1.4em/1.4 sans-serif;">LOADING</h1>
+             <div class="loader">
+                 <div class="bounce1"></div>
+                 <div class="bounce2"></div>
+                 <div class="bounce3"></div>
+             </div>
+         </div>
+         </div> -->
+      <div id="mainApp" class="app trial" style="touch-action: none; visibility: visible;">
+         <div>
+            <!-- App Nav
+               ================================================== -->
+            <div class="navbar navbar-fixed-top navbar-inverse" id="menuTop" style="touch-action:none">
+               <div class="navbar-inner">
+                  <div>
+                     <ul id="mainNav" class="nav">
+                        <!-- <li class="ss-logo">
+                           <a href="https://www.smartdraw.com/" id="logo-link" target="_blank">
+                               <img id="CDNImage1" alt="sd15-logo-white" src="basicui2_files/sd15-logo-white.png">
+                           </a>
+                           </li> -->
+                        <li><a id="ro-mobileTabs" onclick="SD_Click(event, 'SD_DropDropdown')" dropdownid="dd-mobileTabsRo"><i class="icon-reorder"></i> Menu</a></li>
+                        <li><a id="ro-noUserWidgetMenu" onclick="SD_Click(event, 'SD_DropDropdown')" dropdownid="dd-noUserWidgetMenu"><i class="icon-reorder"></i> Menu</a></li>
+                        <li><a id="ro-signup" onclick="SD_Click(event, 'SD_ShowModal')" modalid="m-loginsignup"><i class="icon-signin"></i> Log In</a></li>
+                        <li class="hideIfNoEdit"><a id="ro-editFile" onclick="SD_Click(event, 'SD_ToggleMobileReadOnly')" class="hide"><i class="icon-edit"></i> Edit</a></li>
+                        <li><a ribbon="r-file" onclick="SD_Click(event, 'SD_RibbonChange')">File</a></li>
+                        <li><a class="activeRibbonTab" ribbon="r-home" onclick="SD_Click(event, 'SD_RibbonChange')">Home</a></li>
+                        <li><a ribbon="r-design" onclick="SD_Click(event, 'SD_RibbonChange')">Design</a></li>
+                        <li><a ribbon="r-insert" onclick="SD_Click(event, 'SD_RibbonChange')">Insert</a></li>
+                        <li><a ribbon="r-page" onclick="SD_Click(event, 'SD_RibbonChange')">Page</a></li>
+                        <li><a ribbon="r-table" onclick="SD_Click(event, 'SD_RibbonChange')">Table</a></li>
+                        <li><a id="r-chartsTab" ribbon="r-charts" onclick="SD_Click(event, 'SD_RibbonChange')">Charts</a></li>
+                        <li><a ribbon="r-options" onclick="SD_Click(event, 'SD_RibbonChange')">Options</a></li>
+                        <li><a id="r-developerTab" ribbon="r-developer" onclick="SD_Click(event, 'SD_RibbonChange')">Developer</a></li>
+                        <li><a ribbon="r-help" onclick="SD_Click(event, 'SD_RibbonChange')">Support</a></li>
+                        <!-- <li class="buyLink" id="r-buyLink"><a id="trial-buy" class="trialTab" onclick="SD_Click(event, 'SD_ShowModal')" modalid="m-trialbuy" title="Buy Cloud">Buy</a></li> -->
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End Nav
+               ================================================== -->
+         </div>
+      </div>
+      </div></div></div></div>
+      </div>
+      </div>
+      </div>End Ribbon
+      <div class="row" style="height: 573px;">
+         <!-- Smart Panel
+            ================================================== -->
+         <div class="leftpanel" style="touch-action:none; width: 293px; margin-bottom: 150px; margin-top: 100px;">
+            <div class="btn-group" style="padding: 10px">
+               <button type="button" class="btn btn-primary">Left</button>
+               <button type="button" class="btn btn-primary">Right</button>
+            </div>
+            <div class="btn-group" style="padding: 10px">
+               
+                  <button type="button" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add</button>
+               
+               <div id="id01" class="modal">
+                  <form class="modal-content animate" action="/action_page.php" method="post">
+                     <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                        <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                     </div>
+                     <div class="container">
+                        <label for="uname"><b>Username</b></label>
+                        <input type="text" placeholder="Enter Username" name="uname" required>
+                        <label for="psw"><b>Password</b></label>
+                        <input type="password" placeholder="Enter Password" name="psw" required>
+                        <button type="submit">Login</button>
+                        <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                        </label>
+                     </div>
+                     <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                        <span class="psw">Forgot <a href="#">password?</a></span>
+                     </div>
+                  </form>
+               </div>
+               
+                  <button type="button" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Configure</button>
+               
+               <div id="id01" class="modal">
+                  <form class="modal-content animate" action="/action_page.php" method="post">
+                     <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                        <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                     </div>
+                     <div class="container">
+                        <label for="uname"><b>Username</b></label>
+                        <input type="text" placeholder="Enter Username" name="uname" required>
+                        <label for="psw"><b>Password</b></label>
+                        <input type="password" placeholder="Enter Password" name="psw" required>
+                        <button type="submit">Login</button>
+                        <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                        </label>
+                     </div>
+                     <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                        <span class="psw">Forgot <a href="#">password?</a></span>
+                     </div>
+                  </form>
+               </div>
+               <button type="button" class="btn btn-primary">Remove</button>
+            </div>
+            <div class="btn-group" style="padding: 10px;">
+               <button type="button" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Supervisors</button>
+            </div>
+            <div id="id01" class="modal">
+               <form class="modal-content animate" action="/action_page.php" method="post">
+                  <div class="imgcontainer">
+                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                     <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                  </div>
+                  <div class="container">
+                     <label for="uname"><b>Username</b></label>
+                     <input type="text" placeholder="Enter Username" name="uname" required>
+                     <label for="psw"><b>Password</b></label>
+                     <input type="password" placeholder="Enter Password" name="psw" required>
+                     <button type="submit">Login</button>
+                     <label>
+                     <input type="checkbox" checked="checked" name="remember"> Remember me
+                     </label>
+                  </div>
+                  <div class="container" style="background-color:#f1f1f1">
+                     <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                     <span class="psw">Forgot <a href="#">password?</a></span>
+                  </div>
+               </form>
+            </div>
+
+            <div class="btn-group" style="padding: 10px;">
+               <button type="button" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Form manager</button>
+            </div>
+            <div id="id01" class="modal">
+               <form class="modal-content animate" action="/action_page.php" method="post">
+                  <div class="imgcontainer">
+                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                     <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                  </div>
+                  <div class="container">
+                     <label for="uname"><b>Username</b></label>
+                     <input type="text" placeholder="Enter Username" name="uname" required>
+                     <label for="psw"><b>Password</b></label>
+                     <input type="password" placeholder="Enter Password" name="psw" required>
+                     <button type="submit">Login</button>
+                     <label>
+                     <input type="checkbox" checked="checked" name="remember"> Remember me
+                     </label>
+                  </div>
+                  <div class="container" style="background-color:#f1f1f1">
+                     <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                     <span class="psw">Forgot <a href="#">password?</a></span>
+                  </div>
+               </form>
+            </div>
+         </div>
+         <!-- Canvas -->
+         <div id="workarea" class="main-panel" style="bottom: -150px;">
+            <div id="document-area" style="touch-action:none;top: -110px; bottom: -150px;">
+               <div class="document-ruler-corner" id="c-ruler" style="visibility: hidden; user-select: none;"></div>
+               <div class="document-ruler-top" id="h-ruler" style="visibility: hidden; user-select: none;">
+               </div>
+               <div id="svgarea" style="inset: 10px 0px 0px 234.333px; touch-action: none; width: 900px; height: 500px; margin-left: -150px;margin-top: 25px; margin-bottom: 50px; overflow: hidden; user-select: none; ;" class="">
+                  <div class="doc_loader">
+                     <h1>LOADING</h1>
+                     <div class="doc_loader_circles">
+                        <div class="doc_loader_circle loadCircle1"></div>
+                        <div class="doc_loader_circle loadCircle2"></div>
+                        <div class="doc_loader_circle loadCircle3"></div>
+                     </div>
+                  </div>
+                  <!-- <input id="SDTS_TouchProxy" type="text" style="color:transparent; position:fixed; z-index:-1; left:-1000px; top:-1000px; width:0px; height:0px; padding:0px; margin:0px; border:0px; border-radius:0px; touch-action:none; text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/> -->
+                  <textarea id="SDTS_TouchProxy" style="color:transparent; position:fixed; z-index:-1; left:-1000px; top:-1000px; width:0px; height:0px; padding:0px; margin:0px; border:0px; touch-action:none; text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"></textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      </div>
+      <!-- Shape Menu needs to be in the main app div for HammerJS binding -->
+      </div>
+      <script  src="basicui2_files/form.js"></script>
+   </body>
+</html>
+
