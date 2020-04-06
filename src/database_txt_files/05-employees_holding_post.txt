@@ -5,17 +5,111 @@
 /*********************************************************************************************************/
 
 CREATE TABLE employees_holding_post_associated_with_department(
-    post_email_id VARCHAR NOT NULL PRIMARY KEY,
+    role_email_id VARCHAR NOT NULL PRIMARY KEY,
     password TEXT NOT NULL,
-    employee_email_id VARCHAR REFERENCES employess(employee_email_id) ON DELETE restrict ,
-    department VARCHAR(100) REFERENCES departments(department_name) ,
+    employee_email_id VARCHAR REFERENCES employess(employee_email_id) ON DELETE RESTRICT,
+    department VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     role_created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
-    reassigned_email_id VARCHAR REFERENCES employees(employee_email_id),
+    reassigned_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT DEFAULT NULL,
     duration INTERVAL DEFAULT NULL,
     date_of_reassignment DATE DEFAULT NULL, 
-    role_name VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE NOT NULL
+    role_name VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
+    employee_assigned_post_date DATE DEFAULT CURRENT_DATE NOT NULL
 );
 
+CREATE TABLE is_role_deleted(
+    role_email_id VARCHAR NOT NULL PRIMARY KEY,
+    is_deleted BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+CREATE TABLE deleted_roles(
+    role_email_id VARCHAR NOT NULL PRIMARY KEY,
+    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) NOT NULL,
+    role_created_on_date DATE NOT NULL,
+    role_ended_on_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    role_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE changed_employees_on_role(
+    role_email_id VARCHAR REFERENCES is_role_deleted(role_email_id) NOT NULL,
+    employee_email_id VARCHAR REFERENCES is_employee_deleted(employee_email_id) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE reassignment_history_on_role(
+    role_email_id VARCHAR REFERENCES is_role_deleted(role_email_id) NOT NULL,
+    employee_email_id VARCHAR REFERENCES is_employee_deleted(employee_email_id) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL DEFAULT CURRENT_DATE    
+);
+
+/********************************************************************************************************************/
 
 
-TRIGGER ON UPDATE
+CREATE OR REPLACE FUNCTION populate_is_role_deleted() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO is_role_deleted(role_email_id) VALUES (NEW.role_email_id);
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_is_role_deleted_trigger
+BEFORE INSERT
+ON employees_holding_post_associated_with_department
+FOR EACH ROW
+EXECUTE PROCEDURE populate_is_role_deleted();
+
+/********************************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION log_deleted_roles() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO deleted_roles(role_email_id, department_name, role_created_on_date, role_name) VALUES (OLD.role_email_id, OLD.department_name, OLD.role_created_on_date,OLD.role_name);
+    UPDATE is_role_deleted SET is_deleted = TRUE WHERE role_email_id = OLD.role_email_id;
+    RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER log_deleted_users_trigger
+AFTER DELETE
+ON employees_holding_post_associated_with_department
+FOR EACH ROW
+EXECUTE PROCEDURE log_deleted_roles();
+
+/********************************************************************************************************************/
+
+
+/* create before delete TRIGGER later*/
+
+/********************************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION populate_changed_employees_on_role() RETURNS TRIGGER AS
+$$
+BEGIN
+    IF OLD.employee_email_id <> NEW.employee_email_id THEN
+        INSERT INTO changed_employees_on_role(role_email_id,employee_email_id,start_date) VALUES (OLD.role_email_id, OLD.employee_email_id, OLD.start_date);
+    END IF;
+
+    IF OLD.reassigned_email_id <> NEW.reassigned_email_id THEN
+        INSERT INTO reassignment_history_on_role(role_email_id,employee_email_id,start_date) VALUES (OLD.role_email_id, OLD.reassigned_email_id,OLD.date_of_reassignment);
+    END IF;
+
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_changed_employees_on_role_trigger
+BEFORE UPDATE 
+ON employees_holding_post_associated_with_department
+ON EACH ROW
+EXECUTE PROCEDURE populate_changed_employees_on_role();
+
+
+

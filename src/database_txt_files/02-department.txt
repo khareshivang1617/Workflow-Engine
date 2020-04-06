@@ -64,6 +64,7 @@ $$
 BEGIN
     INSERT INTO deleted_departments(department_name, start_date) VALUES (OLD.department_name, OLD.start_date);
     UPDATE is_department_deleted SET is_deleted = TRUE WHERE department_name = OLD.department_name; 
+    /* delete workflow also */
     RETURN OLD;
 END;
 $$    

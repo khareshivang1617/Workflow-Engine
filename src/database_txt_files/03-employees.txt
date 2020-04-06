@@ -1,5 +1,6 @@
 /* read only */
 /* here the employee is designated to the person who has no decision taking power  */
+/* delete employee using its username only */
 
 
 
@@ -22,11 +23,44 @@ USING hash
 
 
 /* read only */
-CREATE TABLE deleted_employees(
+CREATE TABLE is_employee_deleted(
     employee_email_id VARCHAR NOT NULL PRIMARY KEY,
-    password text NOT NULL,
-    emp_id INTEGER REFERENCES users(emp_id) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
-    emp_joining_date DATE NOT NULL,
-    emp_end_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    department REFERENCES deleted_departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE NOT NULL,
+    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) NOT NULL,
+    username VARCHAR(255) REFERENCES is_user_deleted(username) NOT NULL
 );
+
+/***********************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION log_deleted_employee() RETURNS TRIGGER AS
+$$
+BEGIN 
+    INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (OLD.employee_email_id,TRUE,OLD.department_name,OLD.username);
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER log_deleted_employee_trigger
+AFTER DELETE
+ON employees
+FOR EACH ROW
+EXECUTE PROCEDURE log_deleted_employee();
+
+
+/***********************************************************************************************/
+
+CREATE OR REPLACE FUNCTION populate_is_employee_deleted() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (NEW.employee_email_id,FALSE,NEW.department_name,NEW.username);
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_is_employee_deleted_trigger
+BEFORE INSERT
+ON employees
+FOR EACH ROW
+EXECUTE PROCEDURE populate_is_employee_deleted();
+

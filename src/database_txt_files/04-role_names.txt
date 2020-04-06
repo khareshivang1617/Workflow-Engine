@@ -7,7 +7,7 @@
 
 
 /* role= "employee" is already inserted into the table */
-/* delete not allowed, update and insert is allowed */
+/* delete, update and insert is allowed */
 CREATE TABLE roles_associated_with_department(
     role_name VARCHAR(100) NOT NULL PRIMARY KEY
 );
@@ -15,6 +15,8 @@ CREATE TABLE roles_associated_with_department(
 
 /****************************************************************************************************/
 
+
+/* delete not allowed , insert and update allowed */ 
 CREATE TABLE roles_not_associated_with_department(
     role_name VARCHAR(100) NOT NULL PRIMARY KEY
 );
