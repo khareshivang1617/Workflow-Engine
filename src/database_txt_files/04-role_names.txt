@@ -1,0 +1,20 @@
+/* read only */
+/* roles_associated_with_department contains all the roles that exists only if the department exists */
+/* roles_not_associated with department contains the roles like dean, supervisor,admin etc who are not associated with any department*/
+
+
+/*****************************************************************************************************/
+
+
+/* role= "employee" is already inserted into the table */
+/* delete not allowed, update and insert is allowed */
+CREATE TABLE roles_associated_with_department(
+    role_name VARCHAR(100) NOT NULL PRIMARY KEY
+);
+
+
+/****************************************************************************************************/
+
+CREATE TABLE roles_not_associated_with_department(
+    role_name VARCHAR(100) NOT NULL PRIMARY KEY
+);

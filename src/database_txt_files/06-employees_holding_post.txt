@@ -1,0 +1,10 @@
+
+
+
+CREATE TABLE employees_holding_post_not_associated_with_department(
+    post_email_id VARCHAR NOT NULL PRIMARY KEY,
+    password TEXT NOT NULL,
+    username VARCHAR(255) REFERENCES users(username) ON DELETE RESTRICT,
+    post_created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    role_name VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name) ON DELETE CASCADE NOT NULL
+);

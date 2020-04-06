@@ -1,0 +1,21 @@
+/* read only */
+/* An employee holding a post can be temporarily reassigned */
+
+
+/*********************************************************************************************************/
+
+CREATE TABLE employees_holding_post_associated_with_department(
+    post_email_id VARCHAR NOT NULL PRIMARY KEY,
+    password TEXT NOT NULL,
+    employee_email_id VARCHAR REFERENCES employess(employee_email_id) ON DELETE restrict ,
+    department VARCHAR(100) REFERENCES departments(department_name) ,
+    role_created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    reassigned_email_id VARCHAR REFERENCES employees(employee_email_id),
+    duration INTERVAL DEFAULT NULL,
+    date_of_reassignment DATE DEFAULT NULL, 
+    role_name VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE NOT NULL
+);
+
+
+
+TRIGGER ON UPDATE

@@ -1,0 +1,70 @@
+/* read only */
+
+/* All the users of the system are stored in the users table, a user can be employee or system-admin/admin/supervisor */
+/* A deleted employee can be user */
+
+
+/**************************************************************************************************************/
+
+
+/* update is not allowed, only insert and delete */
+CREATE TABLE users(
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    doj_company DATE NOT NULL DEFAULT CURRENT_DATE 
+);
+
+CREATE INDEX user_index ON users
+USING hash
+(
+    username
+);
+
+CREATE TABLE deleted_users(
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    doj_company DATE NOT NULL ,
+    end_date_in_company DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE is_user_deleted(
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+
+/**************************************************************************************************************/
+
+CREATE OR REPLACE FUNCTION populate_is_user_deleted() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO is_user_deleted(username) VALUES (NEW.username);
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_is_user_deleted_trigger
+BEFORE INSERT
+ON users
+FOR EACH ROW
+EXECUTE PROCEDURE populate_is_user_deleted();
+
+/**************************************************************************************************************/
+
+CREATE OR REPLACE FUNCTION log_deleted_users() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO deleted_users(username, name, doj_company) VALUES (OLD.username, OLD.name, OLD.doj_company);
+    UPDATE is_user_deleted SET is_deleted = TRUE WHERE username = OLD.username;
+    RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER log_deleted_users_trigger
+AFTER DELETE
+ON users
+FOR EACH ROW
+EXECUTE PROCEDURE log_deleted_users();
+

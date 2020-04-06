@@ -1,0 +1,9 @@
+\c postgres
+
+DROP DATABASE workflow_db;
+
+CREATE DATABASE workflow_db;
+
+\c workflow_db
+
+CREATE EXTENSION pgcrypto;

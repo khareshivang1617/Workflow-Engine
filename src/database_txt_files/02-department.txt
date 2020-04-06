@@ -1,0 +1,78 @@
+/* read only */
+/* cannot create new department with the same name of the deleted department */
+/* on deleting the department all the employees, roles and workflows associated with it gets deleted */
+
+/*******************************************************************************************************/
+
+CREATE TABLE departments(
+    department_name VARCHAR(100) NOT NULL PRIMARY KEY, 
+    start_date DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+
+CREATE TABLE deleted_departments(
+    department_name VARCHAR(100) NOT NULL PRIMARY KEY, 
+    start_date DATE NOT NULL ,
+    end_date DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE is_department_deleted(
+    department_name VARCHAR(100) NOT NULL PRIMARY KEY,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+/*******************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION update_dep_name() RETURNS TRIGGER AS
+$$
+BEGIN
+	UPDATE is_department_deleted SET department_name = NEW.department_name WHERE department_name = OLD.department_name;
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_dep_name_trigger
+BEFORE UPDATE
+ON departments
+FOR EACH ROW
+EXECUTE PROCEDURE update_dep_name();
+
+
+/********************************************************************************************************/
+
+CREATE OR REPLACE FUNCTION populate_is_department_deleted_on_insertion_in_departments() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO is_department_deleted(department_name) VALUES (NEW.department_name);
+    RETURN NEW;
+END;
+$$    
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_is_department_deleted_on_insertion_in_departments_trigger
+BEFORE INSERT 
+ON is_department_deleted
+FOR EACH ROW
+EXECUTE PROCEDURE populate_is_department_deleted_on_insertion_in_departments();
+
+/********************************************************************************************************/
+
+CREATE OR REPLACE FUNCTION populate_deleted_departments() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO deleted_departments(department_name, start_date) VALUES (OLD.department_name, OLD.start_date);
+    UPDATE is_department_deleted SET is_deleted = TRUE WHERE department_name = OLD.department_name; 
+    RETURN OLD;
+END;
+$$    
+LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_deleted_departments_trigger
+AFTER DELETE
+ON departments
+FOR EACH ROW
+EXECUTE PROCEDURE populate_deleted_departments();
+
+
