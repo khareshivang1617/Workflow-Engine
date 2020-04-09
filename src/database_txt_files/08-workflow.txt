@@ -1,0 +1,111 @@
+/* read only */
+/* if admin deletes a workflow a warning will be shown to him that the pending applications of the workflow gets deleted permanently */
+
+
+/************************************************************************************************************/
+
+CREATE TABLE workflow_details(
+    workflow_id SERIAL PRIMARY KEY,
+    workflow_name VARCHAR(100) NOT NULL,
+    workflow_description TEXT NOT NULL,
+    created_by_email VARCHAR REFERENCES employees_holding_post_not_associated_with_department(post_email_id) NOT NULL,
+    created_by_username VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL ,
+    created_on_date DATE DEFAULT CURRENT_DATE NOT NULL
+);
+
+/* admin and sys-admin both can insert in this table */
+CREATE TABLE workflow_editors(
+    workflow_id INTEGER REFERENCES workflow_details(workflow_id)  ON DELETE CASCADE NOT NULL,
+    post_email_id VARCHAR REFERENCES employees_holding_post_not_associated_with_department(post_email_id) NOT NULL 
+);
+
+CREATE TABLE workflow_accessed_by_emp_and_role_dept(
+    workflow_id INTEGER REFERENCES workflow_details(workflow_id)  ON DELETE CASCADE NOT NULL,
+    role_name  VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE NOT NULL ,
+    department_name VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE
+);
+
+CREATE TABLE workflow_accessed_by_role(
+    workflow_id INTEGER REFERENCES workflow_details(workflow_id) ON DELETE CASCADE NOT NULL ,
+    role_name  VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name)  ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE is_workflow_deleted(
+    workflow_id INTEGER NOT NULL PRIMARY KEY,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+
+/* can't delete a role which is involved in a workflow */
+/*  BUT when we delete a dep than all its workflows and roles gets deleted */
+CREATE TABLE workflow_node(
+    workflow_id INTEGER REFERENCES workflow_details(workflow_id) ON DELETE CASCADE NOT NULL, 
+    stage INTEGER NOT NULL ,
+    role_email_id VARCHAR REFERENCES all_email(email) ON DELETE RESTRICT NOT NULL,
+    notification BOOLEAN DEFAULT TRUE NOT NULL,
+    duration INTERVAL DEFAULT NULL,
+    PRIMARY KEY(workflow_id, stage)
+);
+
+/************************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION populate_is_workflow_deleted() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO is_workflow_deleted(workflow_id) VALUES (NEW.workflow_id);
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER populate_is_workflow_deleted_trigger
+BEFORE INSERT
+ON workflow_details
+FOR EACH ROW
+EXECUTE PROCEDURE populate_is_workflow_deleted();
+
+/************************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION update_is_workflow_deleted() RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE is_workflow_deleted SET is_deleted = TRUE WHERE workflow_id = OLD.workflow_id;
+    RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER update_is_workflow_deleted_trigger
+AFTER DELETE
+ON workflow_details
+FOR EACH ROW
+EXECUTE PROCEDURE update_is_workflow_deleted();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

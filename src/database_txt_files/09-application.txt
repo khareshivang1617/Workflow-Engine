@@ -1,0 +1,217 @@
+/* read only */
+/* on deleting a department all the workflows and applications related to it gets deleted */
+/* on  deleting a pending application its corresponding rows in action_on_application table and all_applications gets deleted */
+
+
+/**************************************************************************************************/
+
+CREATE TYPE action_type AS ENUM(
+    'pending',
+    'approved',
+    'rejected'
+);
+
+
+CREATE TABLE pending_applications(
+    application_id SERIAL PRIMARY KEY ,
+    workflow_id INTEGER REFERENCES workflow_details(workflow_id)  ON DELETE CASCADE NOT NULL,
+    initiated_by_email VARCHAR REFERENCES all_email(email) ON DELETE CASCADE NOT NULL,
+    username VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL,
+    current_stage INTEGER UNIQUE,          /* what happem on deleting*/
+    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    redirect_stage INTEGER DEFAULT NULL,        /*what happen on deleting */
+    status action_type NOT NULL,
+    application_form_data json NOT NULL   ,                  /*for the time being consider we are storing it as a json object */
+    date_of_assignment DATE DEFAULT CURRENT_DATE
+);
+
+/* includes all the pending and closed applications */
+CREATE TABLE all_applications(
+    application_id INTEGER PRIMARY KEY,
+    approved_or_rejected action_type NOT NULL           /* change this */
+);
+
+/* document attachment can be done later */
+CREATE TABLE action_on_application(
+    application_id INTEGER REFERENCES all_applications(application_id)  ON DELETE CASCADE NOT NULL,
+    stage INTEGER NOT NULL,
+    action_by_email VARCHAR NOT NULL,     
+    action_by_username  VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL,
+    date_of_action DATE DEFAULT CURRENT_DATE NOT NULL,
+    comments TEXT DEFAULT NULL,
+    PRIMARY KEY(stage, application_id)
+);
+
+CREATE TABLE closed_applications(
+    application_id INTEGER REFERENCES all_applications(application_id)  ON DELETE CASCADE NOT NULL,
+    workflow_id INTEGER REFERENCES is_workflow_deleted(workflow_id) NOT NULL,
+    initiated_by_email VARCHAR NOT NULL,
+    username VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL,
+    time_stamp TIMESTAMP NOT NULL,
+    closed_application_on_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    status action_type NOT NULL,
+    application_form_data json NOT NULL
+    /* put application form in json format */
+);
+
+
+
+/*********************************************************************************************************************************************************************
+
+
+CREATE OR REPLACE FUNCTION populate_all_applications() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO all_applications VALUES (NEW.application_id, approved_or_rejected = 'pending');
+    RETURN NEW;
+
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER populate_all_applications_trigger
+BEFORE INSERT
+ON pending_applications
+FOR EACH ROW
+EXECUTE PROCEDURE populate_all_applications();
+
+
+
+/*********************************************************************************************************************************************************************
+
+
+CREATE OR REPLACE FUNCTION delete_from_all_applications() RETURNS TRIGGER AS
+$$
+BEGIN
+    IF OLD.status = 'pending' THEN
+        DELETE FROM all_applications WHERE application_id = OLD.application_id;
+    END IF;
+    RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER delete_from_all_applications_trigger
+AFTER DELETE
+ON pending_applications
+FOR EACH ROW
+EXECUTE PROCEDURE delete_from_all_applications();
+
+
+
+/***************************************************************************************************************************************************************
+
+/* later store document in the table */
+/* only one application can be launched by a  person of a particular workflow at a time*/
+/* Assumption: Atleast one node should be there on path leaving owner */
+CREATE OR REPLACE PROCEDURE launch_new_application(workflow_id INTEGER, la_email_id VARCHAR, application_form_data json, comments TEXT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    la_username VARCHAR(100);
+    la_which_table which_table_choices;
+    la_emp_email_id VARCHAR;
+    la_app_id INTEGER;
+BEGIN
+    SELECT which_table INTO la_which_table FROM all_email WHERE email = la_email_id;
+
+    IF la_which_table = 'emp' THEN
+        SELECT username INTO la_username FROM employees WHERE employee_email_id = la_email_id;
+    ELSIF la_which_table = 'role_dept' THEN
+        SELECT employee_email_id INTO la_emp_email_id  FROM employees_holding_post_associated_with_department WHERE role_email_id = la_email_id;
+        SELECT username INTO la_username FROM employees WHERE employee_email_id = la_emp_email_id;
+    ELSE    
+        SELECT username INTO la_username FROM employees_holding_post_not_associated_with_department WHERE post_email_id = la_email_id;
+    END IF;
+
+    INSERT INTO pending_applications VALUES (DEFAULT, workflow_id, la_email_id, la_username, 1, now(), DEFAULT, 'pending', application_form_data, DEFAULT );
+    SELECT application_id INTO la_app_id FROM pending_applications WHERE pending_applications.workflow_id = workflow_id AND initiated_by_email = la_email_id;
+    INSERT INTO action_on_application VALUES (la_app_id, 0, la_email_id, la_username, DEFAULT, comments);
+	COMMIT;
+END;
+$$;    
+
+/*********************************************************************************************************************************************************************
+
+/* call this function every time to check whether the current stage is last or not */
+CREATE OR REPLACE FUNCTION can_approve_or_reject(la_current_stage INTEGER, la_workflow_id INTEGER) RETURNS BOOLEAN AS $$
+DECLARE final_stage INTEGER;
+BEGIN
+	SELECT MAX(stage) INTO final_stage FROM workflow_node GROUP BY workflow_id HAVING workflow_id = la_workflow_id; 
+
+    IF final_stage = la_current_stage THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;        
+END; $$
+LANGUAGE PLPGSQL;
+
+/*********************************************************************************************************************************************************************
+
+/* call this function only when can_approve_or_reject returns false */
+/* later add duration constraint in it */
+CREATE OR REPLACE PROCEDURE forward (la_app_id INTEGER, comments TEXT, la_email_id VARCHAR, la_username VARCHAR(255))
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    la_current_stage INTEGER;
+    la_redirect_stage INTEGER;
+
+BEGIN
+    SELECT current_stage, redirect_stage INTO la_current_stage, la_redirect_stage FROM pending_applications WHERE application_id = la_app_id;
+    INSERT INTO action_on_application VALUES (la_app_id, la_current_stage, la_email_id, la_username, DEFAULT, comments );
+    
+    IF la_redirect_stage IS NOT NULL  THEN
+        UPDATE pending_applications SET redirect_stage = NULL , current_stage = la_redirect_stage WHERE application_id = la_app_id;
+    ELSE
+        UPDATE pending_applications SET current_stage = la_current_stage + 1, date_of_assignment = CURRENT_DATE WHERE application_id = la_app_id;
+    END IF;
+    COMMIT;
+END;
+$$;
+
+/*********************************************************************************************************************************************************************
+
+
+/* call this procedure only when application is on the last stage and check if it is working correctly or not */
+CREATE OR REPLACE PROCEDURE approve_or_reject(la_app_id INTEGER , comments TEXT, la_email_id VARCHAR, la_username VARCHAR(255), action action_type)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    la_current_stage INTEGER;
+    la_row record;
+
+BEGIN
+    SELECT current_stage INTO la_current_stage FROM pending_applications WHERE application_id = la_app_id;
+    UPDATE pending_applications SET status = action WHERE application_id = la_app_id;
+    UPDATE all_applications SET approved_or_rejected = action WHERE application_id = la_app_id;
+    INSERT INTO action_on_application VALUES (la_app_id, la_current_stage, la_email_id, la_username, DEFAULT, comments);
+    SELECT * INTO la_row FROM pending_applications WHERE application_id = la_app_id;
+    INSERT INTO closed_applications VALUES (la_row.application_id, la_row.workflow_id, la_row.initiated_by_email, la_row.username, la_row.time_stamp, DEFAULT, la_row.status, la_row.application_form_data);
+    DELETE FROM pending_applications WHERE application_id = la_app_id;
+
+    COMMIT;
+END;
+$$;    
+
+/*********************************************************************************************************************************************************************
+
+
+CREATE OR REPLACE PROCEDURE redirect(la_app_id INTEGER, comments TEXT, la_email_id VARCHAR, la_username VARCHAR(255), la_redirect_stage INTEGER) 
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    la_current_stage INTEGER;
+
+BEGIN
+    SELECT current_stage INTO la_current_stage FROM pending_applications WHERE application_id = la_app_id;
+    UPDATE pending_applications SET redirect_stage = la_current_stage ,current_stage = la_redirect_stage, date_of_assignment = CURRENT_DATE WHERE application_id = la_app_id;
+    INSERT INTO action_on_application VALUES (la_app_id, la_current_stage, la_email_id, la_username, DEFAULT, comments);
+    COMMIT;
+END;
+$$;
+
+/*********************************************************************************************************************************************************************

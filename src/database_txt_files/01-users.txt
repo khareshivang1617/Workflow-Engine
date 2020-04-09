@@ -1,7 +1,7 @@
 /* read only */
 
 /* All the users of the system are stored in the users table, a user can be employee or system-admin/admin/supervisor */
-/* A deleted employee can be user */
+/* All the usernames should be unique whether it is deletd or not */
 
 
 /**************************************************************************************************************/
@@ -14,11 +14,6 @@ CREATE TABLE users(
     doj_company DATE NOT NULL DEFAULT CURRENT_DATE 
 );
 
-CREATE INDEX user_index ON users
-USING hash
-(
-    username
-);
 
 CREATE TABLE deleted_users(
     username VARCHAR(255) NOT NULL PRIMARY KEY,

@@ -29,9 +29,11 @@ BEGIN
     END IF;
     RETURN NEW;   
 END;
+$$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER populate_changed_employees_trigger
 BEFORE UPDATE 
 ON employees_holding_post_not_associated_with_department
+FOR EACH ROW
 EXECUTE PROCEDURE populate_changed_employees();

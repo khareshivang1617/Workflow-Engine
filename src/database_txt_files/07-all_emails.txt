@@ -1,0 +1,113 @@
+/* read only */
+
+
+/******************************************************************************************************/
+
+CREATE TYPE which_table_choices AS ENUM(
+    'emp',
+    'role_dept',
+    'role'
+);
+
+
+/* if employee or roles_associated_with_department gets deleted then corresponding entery in all_email also get deleted */
+CREATE TABLE all_email(
+    email VARCHAR PRIMARY KEY NOT NULL,
+    which_table which_table_choices NOT NULL
+);
+
+
+/******************************************************************************************************/
+
+CREATE OR REPLACE FUNCTION add_emp_email_to_all_email() RETURNS TRIGGER AS
+$$
+BEGIN
+	INSERT INTO all_email (email, which_table) VALUES (NEW.employee_email_id, 'emp');
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER add_emp_email_to_all_email_trigger
+BEFORE INSERT
+ON employees
+FOR EACH ROW
+EXECUTE PROCEDURE add_emp_email_to_all_email();
+
+
+/******************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION add_role_dept_email_to_all_email() RETURNS TRIGGER AS
+$$
+BEGIN
+	INSERT INTO all_email (email, which_table) VALUES (NEW.role_email_id, 'role_dept');
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER add_role_dept_email_to_all_email_trigger
+BEFORE INSERT
+ON employees_holding_post_associated_with_department
+FOR EACH ROW
+EXECUTE PROCEDURE add_role_dept_email_to_all_email();
+
+
+/******************************************************************************************************/
+
+
+
+CREATE OR REPLACE FUNCTION add_role_email_to_all_email() RETURNS TRIGGER AS
+$$
+BEGIN
+	INSERT INTO all_email (email, which_table) VALUES (NEW.post_email_id, 'role');
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER add_role_email_to_all_email_trigger
+BEFORE INSERT
+ON employees_holding_post_not_associated_with_department
+FOR EACH ROW
+EXECUTE PROCEDURE add_role_email_to_all_email();
+
+/******************************************************************************************************/
+
+
+
+CREATE OR REPLACE FUNCTION delete_role_dept_email_to_all_email() RETURNS TRIGGER AS
+$$
+BEGIN
+	DELETE FROM all_email WHERE email = OLD.role_email_id;
+	RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_role_dept_email_to_all_email_trigger
+AFTER DELETE
+ON employees_holding_post_associated_with_department
+FOR EACH ROW
+EXECUTE PROCEDURE delete_role_dept_email_to_all_email();
+
+
+/******************************************************************************************************/
+
+
+CREATE OR REPLACE FUNCTION delete_employee_email_to_all_email() RETURNS TRIGGER AS
+$$
+BEGIN
+    DELETE FROM all_email WHERE email = OLD.employee_email_id;
+	RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_employee_email_to_all_email_trigger
+AFTER DELETE
+ON employees
+FOR EACH ROW
+EXECUTE PROCEDURE delete_employee_email_to_all_email();
+

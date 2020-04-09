@@ -7,7 +7,7 @@
 CREATE TABLE employees_holding_post_associated_with_department(
     role_email_id VARCHAR NOT NULL PRIMARY KEY,
     password TEXT NOT NULL,
-    employee_email_id VARCHAR REFERENCES employess(employee_email_id) ON DELETE RESTRICT,
+    employee_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT,
     department VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     role_created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
     reassigned_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT DEFAULT NULL,
@@ -108,7 +108,7 @@ LANGUAGE plpgsql;
 CREATE TRIGGER populate_changed_employees_on_role_trigger
 BEFORE UPDATE 
 ON employees_holding_post_associated_with_department
-ON EACH ROW
+FOR EACH ROW
 EXECUTE PROCEDURE populate_changed_employees_on_role();
 
 

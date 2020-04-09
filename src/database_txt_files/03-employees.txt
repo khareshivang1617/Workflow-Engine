@@ -15,13 +15,6 @@ CREATE TABLE employees(
     notification BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE INDEX employee_index ON employees
-USING hash
-(
-    employee_email_id
-);
-
-
 /* read only */
 CREATE TABLE is_employee_deleted(
     employee_email_id VARCHAR NOT NULL PRIMARY KEY,
@@ -37,6 +30,7 @@ CREATE OR REPLACE FUNCTION log_deleted_employee() RETURNS TRIGGER AS
 $$
 BEGIN 
     INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (OLD.employee_email_id,TRUE,OLD.department_name,OLD.username);
+    RETURN OLD;
 END;
 $$
 LANGUAGE plpgsql;
@@ -54,6 +48,7 @@ CREATE OR REPLACE FUNCTION populate_is_employee_deleted() RETURNS TRIGGER AS
 $$
 BEGIN
     INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (NEW.employee_email_id,FALSE,NEW.department_name,NEW.username);
+    RETURN NEW;
 END;
 $$
 LANGUAGE plpgsql;

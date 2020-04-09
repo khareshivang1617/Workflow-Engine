@@ -1,9 +1,15 @@
 /* read only */
+
+CREATE OR REPLACE FUNCTION update_dep_name() RETURNS TRIGGER AS
+$$
+BEGIN
 /* cannot create new department with the same name of the deleted department */
-/* on deleting the department all the employees, roles and workflows associated with it gets deleted */
+/* on deleting the department all the employees, roles, workflows and pending applications associated with it gets deleted */
+/* DON'T UPDATE OR DELETE DEPARTMENT */
 
 /*******************************************************************************************************/
 
+/* update, insert and delete is allowed */
 CREATE TABLE departments(
     department_name VARCHAR(100) NOT NULL PRIMARY KEY, 
     start_date DATE NOT NULL DEFAULT CURRENT_DATE
@@ -51,9 +57,9 @@ END;
 $$    
 LANGUAGE plpgsql;
 
-CREATE TRIGGER populate_is_department_deleted_on_insertion_in_departments_trigger
+CREATE TRIGGER populate_is_department_deleted_on_insertion_in_departments_trig
 BEFORE INSERT 
-ON is_department_deleted
+ON departments
 FOR EACH ROW
 EXECUTE PROCEDURE populate_is_department_deleted_on_insertion_in_departments();
 
