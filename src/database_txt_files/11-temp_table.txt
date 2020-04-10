@@ -1,0 +1,9 @@
+
+
+CREATE TABLE temp_data_storage_table(
+    emp_email_id VARCHAR PRIMARY KEY,
+    password TEXT NOT NULL,
+    username VARCHAR(255) UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL
+);

@@ -10,7 +10,8 @@ CREATE TABLE workflow_details(
     workflow_description TEXT NOT NULL,
     created_by_email VARCHAR REFERENCES employees_holding_post_not_associated_with_department(post_email_id) NOT NULL,
     created_by_username VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL ,
-    created_on_date DATE DEFAULT CURRENT_DATE NOT NULL
+    created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    application_form_ui json NOT NULL
 );
 
 /* admin and sys-admin both can insert in this table */
@@ -34,7 +35,6 @@ CREATE TABLE is_workflow_deleted(
     workflow_id INTEGER NOT NULL PRIMARY KEY,
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
-
 
 /* can't delete a role which is involved in a workflow */
 /*  BUT when we delete a dep than all its workflows and roles gets deleted */
