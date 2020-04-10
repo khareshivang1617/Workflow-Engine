@@ -109,7 +109,9 @@ def assign_emp_on_role():
         post_email_id = request.form['post_email_id']
         password = request.form['password']
         username = request.form['username']
+        print(username)
         print(password)
+        print(post_email_id)
         try:
             cur = conn.cursor()
             cur.execute("INSERT INTO employees_holding_post_not_associated_with_department (post_email_id, password, username, start_date, role_name) VALUES (%s, %s, %s, CURRENT_DATE, %s);", (post_email_id, password, username,role_name,))
@@ -128,3 +130,15 @@ def assign_emp_on_role():
         cur.execute('rollback')
     cur.close()
     return render_template('system_admin/assign_emp_on_role.html', role_data = role_data)            
+
+@system_admin_bp.route('/system_admin/show_assigned_role',  methods=["POST", "GET"])
+def show_assigned_role():
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM employees_holding_post_not_associated_with_department")
+        assigned_role_data = cur.fetchall()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        cur.execute('rollback')
+    cur.close()
+    return render_template('system_admin/show_assigned_role.html', assigned_role_data = assigned_role_data)            

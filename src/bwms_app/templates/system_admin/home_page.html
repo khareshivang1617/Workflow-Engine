@@ -3,7 +3,7 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Brand Name</a>
+        <a class="navbar-brand" href="{{url_for('system_admin.home_page')}}"><b>ADMIN ACTIONS</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,24 +12,27 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('system_admin.home_page')}}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('system_admin.add_roles')}}">Edit Roles</a>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('system_admin.add_roles')}}">Add Roles</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="{{url_for('system_admin.add_departments')}}">Add Departments</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                     <a class="nav-link" href="{{url_for('system_admin.show_departments')}}">Show Departments</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item active">
                         <a class="nav-link" href="{{url_for('system_admin.show_all_roles')}}">Show Roles</a>
                       </li>
-                  <li class="nav-item">
+                  <li class="nav-item active">
                     <a class="nav-link" href="{{url_for('system_admin.assign_emp_on_role')}}">Assign Roles</a>
                   </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
+                  <li class="nav-item active">
+                      <a class="nav-link" href="{{url_for('system_admin.show_assigned_role')}}">Display Assigned Roles</a>
+                    </li>
+            
+
+            
           </ul>
         </div>
       </nav>

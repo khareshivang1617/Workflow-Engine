@@ -1,0 +1,28 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+<h4> Present Roles</h4>
+
+<table class="table">
+    <thead>
+      <tr>
+        <!-- <th scope="col"> # </th>  -->
+        <th scope="col">Post EmailID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Role</th>
+      </tr>
+    </thead>
+    <tbody>
+            {% for item in assigned_role_data %}
+        <tr>
+        <!-- <th scope="row">1</th> -->
+        <td>{{item[0]}}</td>
+        <td>{{item[2]}}</td>
+        <td>{{item[3]}}</td>
+        <td>{{item[4]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endblock %}
