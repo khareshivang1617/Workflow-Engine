@@ -1,0 +1,40 @@
+{%extends "layout.html"%}
+{%block body%}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Brand Name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('system_admin.home_page')}}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('system_admin.add_roles')}}">Edit Roles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('system_admin.add_departments')}}">Add Departments</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('system_admin.show_departments')}}">Show Departments</a>
+                  </li>
+                  <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('system_admin.show_all_roles')}}">Show Roles</a>
+                      </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('system_admin.assign_emp_on_role')}}">Assign Roles</a>
+                  </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {% block content%}
+      {% endblock %}
+
+{%endblock%}

@@ -1,0 +1,35 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+
+  <form action="{{ url_for('system_admin.assign_emp_on_role') }}" method="post">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="role_email_id">Role Email ID</label>
+        <input type="email" class="form-control" id="role_email_id" placeholder="Email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" placeholder="username">
+    </div>
+    <div class="form-row">
+      
+      <div class="form-group col-md-4">
+        <label for="role_name">Select Role</label>
+        <select id="role_name" class="form-control">
+          <option selected>Choose...</option>
+          {% for item in role_data %}
+          <option>{{item[0]}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+{% endblock %}

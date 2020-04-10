@@ -1,0 +1,23 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+<h4> Present Roles</h4>
+{% for item in role_data %}
+
+<tr>
+   <td>{{item[0]}}</td>
+   <br>
+</tr>
+{% endfor %}
+
+<br>
+<hr>
+<h4> Present Departmental Roles </h4>
+{% for item in department_role_data %}
+
+<tr>
+  <td>{{item[0]}}</td>
+  <br>
+</tr>
+{% endfor %}
+{% endblock %}
