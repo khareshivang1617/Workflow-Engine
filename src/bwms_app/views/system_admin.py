@@ -13,7 +13,6 @@ system_admin_bp = Blueprint('system_admin',__name__)
 
 #  define the functions here and routes for system admin
 
-
 @system_admin_bp.route('/system_admin/home_page')
 def home_page():
     return render_template('system_admin/home_page.html')
@@ -142,3 +141,20 @@ def show_assigned_role():
         cur.execute('rollback')
     cur.close()
     return render_template('system_admin/show_assigned_role.html', assigned_role_data = assigned_role_data)            
+
+@system_admin_bp.route('/system_admin/registration_requests/<email>/<action>')
+def action_on_request(email,action):
+    if action=='Approve':
+        cursor.execute("SELECT * FROM temp_data_storage_table where emp_email_id = %s",(email,))
+        temp = cursor.fetchone()
+        cursor.execute("insert into users(username,name) values (%s,%s)",(temp[2],temp[3],))
+        cursor.execute("insert into employees(employee_email_id,password,username,department) values (%s,%s,%s,%s)",(temp[0],temp[1],temp[2],temp[4],))
+
+    cursor.execute("delete from temp_data_storage_table where emp_email_id = %s",(email,))
+    return redirect(url_for('system_admin.registration_requests'))
+
+@system_admin_bp.route('/system_admin/registration_requests')
+def registration_requests():
+    cursor.execute("select * from temp_data_storage_table")
+    temp = cursor.fetchall()
+    return render_template('system_admin/registration_requests.html',requests = temp)    

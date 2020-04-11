@@ -1,0 +1,18 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+{% for request in requests %}
+<div style="background-color:rgba(154, 199, 201, 0.945);color:hsl(180, 1%, 13%);padding:20px;">
+<p>
+    <b>Name:</b> {{request[3]}} <br>
+    <b>Email ID:</b> {{request[0]}} <br>
+    <b>Username:</b> {{request[2]}}<br>
+    <b>Department:</b> {{request[4]}}<br>
+    <button type="button" onclick="window.location.href='{{ url_for( 'system_admin.action_on_request' , email=request[0],action='Approve' ) }}';">Approve</button>
+    <button type="button" onclick="window.location.href='{{ url_for( 'system_admin.action_on_request' , email=request[0],action='Reject' ) }}';">Reject</button>
+</p>
+
+</div>
+{% endfor %}
+
+{% endblock %}

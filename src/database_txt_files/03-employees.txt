@@ -29,7 +29,7 @@ CREATE TABLE is_employee_deleted(
 CREATE OR REPLACE FUNCTION log_deleted_employee() RETURNS TRIGGER AS
 $$
 BEGIN 
-    INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (OLD.employee_email_id,TRUE,OLD.department_name,OLD.username);
+    UPDATE is_employee_deleted SET is_deleted = TRUE where employee_email_id = OLD.employee_email_id;
     RETURN OLD;
 END;
 $$
@@ -47,7 +47,7 @@ EXECUTE PROCEDURE log_deleted_employee();
 CREATE OR REPLACE FUNCTION populate_is_employee_deleted() RETURNS TRIGGER AS
 $$
 BEGIN
-    INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (NEW.employee_email_id,FALSE,NEW.department_name,NEW.username);
+    INSERT INTO is_employee_deleted(employee_email_id,is_deleted, department_name, username) VALUES (NEW.employee_email_id,FALSE,NEW.department,NEW.username);
     RETURN NEW;
 END;
 $$
