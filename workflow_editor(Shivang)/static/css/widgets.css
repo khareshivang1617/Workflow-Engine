@@ -1,0 +1,7 @@
+.main
+{
+    position: relative;;
+    top:70px;
+    left:80px;
+    transform:translate(10,20)
+}

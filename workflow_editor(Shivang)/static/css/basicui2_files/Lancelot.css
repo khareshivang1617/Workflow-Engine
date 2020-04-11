@@ -1,0 +1,465 @@
+/* SmartPanel Variables */
+.Style1 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #B3D7EE; }
+
+.Style2 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #CEE7E9; }
+
+.Style3 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D9E3B0; }
+
+.Style4 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FBD585; }
+
+.Style5 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FEBAB2; }
+
+.Style6 {
+  border-color: #A5A5A5;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D1BCD2; }
+
+.Style1020 {
+  border-color: #B3D7EE;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #B3D7EE;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style8 {
+  border-color: #CEE7E9;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #CEE7E9;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style9 {
+  border-color: #D9E3B0;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D9E3B0;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style10 {
+  border-color: #FBD585;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FBD585;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style11 {
+  border-color: #FEBAB2;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FEBAB2;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style12 {
+  border-color: #D1BCD2;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D1BCD2;
+  box-shadow: 2px 2px 2px #888; }
+
+.Style7 {
+  border-color: #B3D7EE;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #B3D7EE; }
+
+.Style14 {
+  border-color: #CEE7E9;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #CEE7E9; }
+
+.Style15 {
+  border-color: #D9E3B0;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D9E3B0; }
+
+.Style16 {
+  border-color: #FBD585;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FBD585; }
+
+.Style17 {
+  border-color: #FEBAB2;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FEBAB2; }
+
+.Style18 {
+  border-color: #D1BCD2;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D1BCD2; }
+
+.Style19 {
+  border-color: #B3D7EE;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style20 {
+  border-color: #CEE7E9;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style21 {
+  border-color: #D9E3B0;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style22 {
+  border-color: #FBD585;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style23 {
+  border-color: #FEBAB2;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style24 {
+  border-color: #D1BCD2;
+  border-width: 4px;
+  border-style: Solid;
+  background-color: #FFFFFF; }
+
+.Style25 {
+  border-color: #D9EBF6;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #D9EBF6; }
+
+.Style26 {
+  border-color: #E7F3F4;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #E7F3F4; }
+
+.Style27 {
+  border-color: #ECF1D9;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #ECF1D9; }
+
+.Style28 {
+  border-color: #FDEAC4;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FDEAC4; }
+
+.Style29 {
+  border-color: #FEDCD9;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #FEDCD9; }
+
+.Style30 {
+  border-color: #E8DEE8;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #E8DEE8; }
+
+.Text Block {
+  border-width: 0px;
+  border-style: Solid;
+  width: 42px;
+  height: 32px; }
+
+.Slide {
+  border-color: #7F7F7F;
+  border-width: 3px;
+  border-style: Double;
+  background-color: #FFFFFF; }
+
+.Bullet {
+  border-color: #7F7F7F;
+  border-width: 1px;
+  border-style: Dashed;
+  background-color: #FFFFFF; }
+
+.Completed {
+  border-color: #030200;
+  border-width: 0px;
+  border-style: Solid;
+  background-color: #393c3e;
+  background-image: linear-gradient(to bottom, #030200, #3B3E40);
+  background-repeat: repeat-x;
+  width: 42px;
+  height: 32px; }
+
+.Remaining {
+  border-color: #B3D7EE;
+  border-width: 1px;
+  border-style: Solid;
+  background-color: #B3D7EE; }
+
+.Grid {
+  border-color: #7F7F7F;
+  border-width: 1px;
+  border-style: Solid; }
+
+.themeColor0 {
+  background-color: #FFFFFF; }
+
+.themeColor1 {
+  background-color: #F2F2F2; }
+
+.themeColor2 {
+  background-color: #D8D8D8; }
+
+.themeColor3 {
+  background-color: #BFBFBF; }
+
+.themeColor4 {
+  background-color: #A5A5A5; }
+
+.themeColor5 {
+  background-color: #7F7F7F; }
+
+.themeColor6 {
+  background-color: #545454; }
+
+.themeColor7 {
+  background-color: #000000; }
+
+.themeColor8 {
+  background-color: #FEFBF3; }
+
+.themeColor9 {
+  background-color: #FEF7E4; }
+
+.themeColor10 {
+  background-color: #FDF0C9; }
+
+.themeColor11 {
+  background-color: #FCE8AF; }
+
+.themeColor12 {
+  background-color: #FADA7A; }
+
+.themeColor13 {
+  background-color: #BBA35B; }
+
+.themeColor14 {
+  background-color: #7D6D3D; }
+
+.themeColor15 {
+  background-color: #52421A; }
+
+.themeColor16 {
+  background-color: #FEF6EF; }
+
+.themeColor17 {
+  background-color: #FDEADA; }
+
+.themeColor18 {
+  background-color: #FBD585; }
+
+.themeColor19 {
+  background-color: #FAC090; }
+
+.themeColor20 {
+  background-color: #F79646; }
+
+.themeColor21 {
+  background-color: #B97034; }
+
+.themeColor22 {
+  background-color: #7B4B23; }
+
+.themeColor23 {
+  background-color: #50240A; }
+
+.themeColor24 {
+  background-color: #F9EFEF; }
+
+.themeColor25 {
+  background-color: #F2DCDB; }
+
+.themeColor26 {
+  background-color: #E5B9B7; }
+
+.themeColor27 {
+  background-color: #D99694; }
+
+.themeColor28 {
+  background-color: #C0504D; }
+
+.themeColor29 {
+  background-color: #903C39; }
+
+.themeColor30 {
+  background-color: #722927; }
+
+.themeColor31 {
+  background-color: #360D0C; }
+
+.themeColor32 {
+  background-color: #1F7FAF; }
+
+.themeColor33 {
+  background-color: #E5E0EC; }
+
+.themeColor34 {
+  background-color: #CCC1D9; }
+
+.themeColor35 {
+  background-color: #B2A2C7; }
+
+.themeColor36 {
+  background-color: #8064A2; }
+
+.themeColor37 {
+  background-color: #604B79; }
+
+.themeColor38 {
+  background-color: #403251; }
+
+.themeColor39 {
+  background-color: #1C1329; }
+
+.themeColor40 {
+  background-color: #EBEFF3; }
+
+.themeColor41 {
+  background-color: #D2DAE5; }
+
+.themeColor42 {
+  background-color: #CBB6CB; }
+
+.themeColor43 {
+  background-color: #7891B1; }
+
+.themeColor44 {
+  background-color: #1F497D; }
+
+.themeColor45 {
+  background-color: #17365D; }
+
+.themeColor46 {
+  background-color: #0F243E; }
+
+.themeColor47 {
+  background-color: #020B1A; }
+
+.themeColor48 {
+  background-color: #EFF3F9; }
+
+.themeColor49 {
+  background-color: #DBE5F1; }
+
+.themeColor50 {
+  background-color: #B8CCE4; }
+
+.themeColor51 {
+  background-color: #9EBCD3; }
+
+.themeColor52 {
+  background-color: #4F81BD; }
+
+.themeColor53 {
+  background-color: #3B608D; }
+
+.themeColor54 {
+  background-color: #27405E; }
+
+.themeColor55 {
+  background-color: #0C1C34; }
+
+.themeColor56 {
+  background-color: #EFF7FA; }
+
+.themeColor57 {
+  background-color: #DBEEF3; }
+
+.themeColor58 {
+  background-color: #B7DDE8; }
+
+.themeColor59 {
+  background-color: #93CDDC; }
+
+.themeColor60 {
+  background-color: #4BACC6; }
+
+.themeColor61 {
+  background-color: #388194; }
+
+.themeColor62 {
+  background-color: #255663; }
+
+.themeColor63 {
+  background-color: #0B2D38; }
+
+.themeColor64 {
+  background-color: #F6F9F0; }
+
+.themeColor65 {
+  background-color: #EBF1DD; }
+
+.themeColor66 {
+  background-color: #D7E3BC; }
+
+.themeColor67 {
+  background-color: #C3D69B; }
+
+.themeColor68 {
+  background-color: #EDFD99; }
+
+.themeColor69 {
+  background-color: #748C42; }
+
+.themeColor70 {
+  background-color: #4D5D2C; }
+
+.themeColor71 {
+  background-color: #26330F; }
+
+.themeColor72 {
+  background-color: #FBFBF3; }
+
+.themeColor73 {
+  background-color: #F6F7E4; }
+
+.themeColor74 {
+  background-color: #EDF0C9; }
+
+.themeColor75 {
+  background-color: #E4E8AF; }
+
+.themeColor76 {
+  background-color: #F2F2B7; }
+
+.themeColor77 {
+  background-color: #9DA35B; }
+
+.themeColor78 {
+  background-color: #696D3D; }
+
+.themeColor79 {
+  background-color: #3E421A; }
