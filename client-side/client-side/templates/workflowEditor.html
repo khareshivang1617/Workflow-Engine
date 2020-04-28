@@ -1,0 +1,207 @@
+{% extends "bootstrap/base.html" %}
+
+<!--title-->
+{% block title %}
+    Editor
+{% endblock %}
+
+<!--metas-->
+{% block metas %}
+<meta charset="utf-8">
+{{ super() }}
+{% endblock %}
+ 
+
+<!--styles-->
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='workflowEditorFiles/styles/stylesheet.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='workflowEditorFiles/styles/modalFormStyle.css') }}">
+    {{ super() }}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='workflowEditorFiles/styles/screenLayout.css') }}">
+{% endblock %}
+
+<!--body attributes-->
+{% block body_attribs %}
+    style="position: relative; min-height: 100%; top: 0px;"
+{% endblock %}
+
+<!--content-->
+{% block content %}
+    <div class="row" style="height: 573px;">
+            
+        <div class="leftpanel" style="touch-action:none; width: 293px; margin-bottom: 150px; margin-top: 100px;">
+        
+        <!-- Functionalities to be added by SHivang -->
+
+        <div class="btn-group" style="padding: 10px">
+            
+            <button type="button" id="addTrigger" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add</button>
+        
+            <div id="id01" class="modal">
+                <form id="node_add_form" class="modal-content animate" action="#">
+                    <!-- PUT ADDING NODE FUNCTIONALITY HERE -->
+                    <h1 id="node_name_temp">Node Configuration new node </h1>
+                    <h3>Node Index : <input type="integer" id="new_node_index" name="node_index" readonly></h3>
+                    <h3>Node Name : <input name="node_name" id="node_name" placeholder="Node Name" /></h3>
+                    <h3>Description : <textarea rows="3" name="description" id="description" placeholder="Description"></textarea></h3>
+                    <h3>
+                        Employee Alloted at Sate/Node : 
+                        <select name="role_mail_id" id="role_mail_id">
+                            <option value="">Employee(by mail); Current : role mail ids</option>
+                            <option value="emp1">Employee 1</option>
+                            <option value="emp2">Employee 2</option>
+                            <option value="emp3">Employee 3</option>
+                            <option value="emp4">Employee 4</option>
+                        </select>
+                    </h3>
+                    <h3>Duration : <input type="time" name="duration" id="duration" placeholder="duration" /></h3>
+                    <h3><button type="submit" id="nodeAdd">SUBMIT</button></h3>
+                </form>         
+            </div>
+        
+            <div id="id02" class="modal">
+                <form id="node_config_form" class="modal-content animate" action="#">
+                <!-- PUT FUNCTIONALITY TO Configure node HERE    -->
+                <h3>Node Name : <input name="node_name" id="node_name" value="node_name"/></h3>
+                <h3>Description : <textarea rows="3" name="description" id="description" value="description"></textarea></h3>
+                <h3><button type="submit" id="save_node_config">SUBMIT</button></h3>
+                
+                </form>        
+            </div>               
+    </div>
+
+    <div class="btn-group" style="padding: 10px;">
+    <button type="button" class="btn btn-primary" onclick="document.getElementById('id03').style.display='block'" style="width:auto;">General Configuration</button>
+    
+    <div id="id03" class="modal">
+    <form id="general_config" class="modal-content animate" action="#" accept-charset="UTF-8" method="post">
+
+        <h3>Workflow ID : <input type="text" id="workflow_id" name="workflow_id" value="workflow_id" readonly></h3>
+        <h3>Workflow Name : <input type="text" name="workflow_name" id="workflow_name"/></h3>
+        <h3>Workflow Description : <textarea rows="3" name="workflow_description" id="workflow_description"></textarea></h3>
+        
+        {%for a in admins%}
+            <h3><input type="checkbox" class="checks" id="admin" value={{a}}>{{a}}</h3>
+        {%endfor%}
+        
+        {%for r in role_dept%}
+            <h3><input type="checkbox" class="checks" id="role_dept" value={{r}}>{{r}}</h3>
+        {%endfor%}
+        
+        {%for r in roles%}
+            <h3><input type="checkbox" class="checks" id="role" value={{r}}>{{r}}</h3>
+        {%endfor%}
+               
+        <h3><button type="submit" id="save_general_config">SUBMIT</button></h3>
+  
+    </form>        
+    </div>
+    </div>
+
+    <!-- END of SHIvang's Functionalities -->
+
+
+
+
+        
+        <div class="btn-group" style="padding: 10px;">
+            <!-- <input  id="form-manager" type="button" class="btn btn-primary" value="Form manager"  /> -->
+            <!-- <button type="button" class="btn btn-primary" id="form-builder"  style="width:auto;">Form manager2</button> -->
+            <!-- <button type="button" class="btn btn-primary" onclick=" window.open('workflowEditorFiles/formbuilder.html','_blank')"> Form manager</button> -->
+            <form action="/formBuilder" method="GET" target="_blank">
+                <input type="submit" class="btn btn-primary" value="Form manager">
+            </form>
+        </div>
+
+
+    <div class="btn-group" style="padding: 10px;">
+        <form method="POST" action="/workflowEditor" id="serverSubmit" role="form">
+            <input type="hidden" id="custId" name="custId" value="3487">
+            <input type="hidden" id="workflow_nodes" name="workflow_nodes" value="workflow_nodes_string">
+            <input type="hidden" id="workflow_details" name="workflow_details" value="workflow_details_string">
+            <!-- <input type="button" id="01" class="btn btn-primary" value="Submit"> -->
+            <!-- <button type="button" class="btn btn-primary" name = "submit" id="01">submit</button> -->
+            <button type="button" id = "final-submit-btn" class="btn btn-primary" onclick="fetchAndSendData()" style="width:auto;">Submit</button>
+
+            </form>
+        </div>
+    
+        
+       
+        <!-- <div id="id01" class="modal">
+            
+            <form class="modal-content animate" target="_blank" action="/action_page.php" method="post">
+            <div id="build-wrap"></div>
+            <div class="setDataWrap">                  
+            <button id="getJSON" type="button">Submit</button>                  
+            </div>
+            </form>
+        </div> -->
+        
+        </div>
+        <!-- Canvas -->
+        <!-- THE WORKFLOW display NEEDS TO BE INSERTED IN THIS AREA -->
+        <div id="workarea" class="main-panel" style="bottom: -150px;">
+        <div id="document-area" style="touch-action:none;top: -110px; bottom: -150px;">
+            <div class="document-ruler-corner" id="c-ruler" style="visibility: hidden; user-select: none;"></div>
+            
+            <div id="svgarea" style="inset: 10px 0px 0px 234.333px; touch-action: none; width: 900px; height: 500px; margin-left: 100px;margin-top: 50px; margin-bottom: 50px; overflow: hidden; user-select: none; ;" class="">
+                <div class="doc_loader">
+                    <h1>LOADING</h1>
+                    <div class="doc_loader_circles">
+                    <div class="doc_loader_circle loadCircle1"></div>
+                    <div class="doc_loader_circle loadCircle2"></div>
+                    <div class="doc_loader_circle loadCircle3"></div>
+                    </div>
+                </div>
+      <!--####################################workflow UI Nodes Display####################################-->
+      <div class="wrapper">
+        <div class="svg-container">
+            <svg version="1.1" viewBox="0 0 500 500" preserveAspectRatio="xMinYMin meet" class="svg-content">
+                <defs>
+                    <marker id="arrow" markerWidth="4" markerHeight="10" viewBox="-2 -4 4 4" refX="0" refY="0" markerUnits="strokeWidth" orient="auto">
+                      <polyline points="2,-2 0,0 2,2" stroke="#443c3d" stroke-width="0.75px" fill="none"/>
+                    </marker>
+                </defs>
+                
+
+                <!---Nodes display using the loop container-->
+                <g class="box-group" id="loopContainer">
+                </g>
+
+
+            </svg>
+        </div>
+      </div>
+      <!--#######################################################UI Display of nodes done !!!########################################################-->
+                <!-- <input id="SDTS_TouchProxy" type="text" style="color:transparent; position:fixed; z-index:-1; left:-1000px; top:-1000px; width:0px; height:0px; padding:0px; margin:0px; border:0px; border-radius:0px; touch-action:none; text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/> -->
+                <textarea id="SDTS_TouchProxy" style="color:transparent; position:fixed; z-index:-1; left:-1000px; top:-1000px; width:0px; height:0px; padding:0px; margin:0px; border:0px; touch-action:none; text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"></textarea>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+
+
+
+    </div>     
+
+{% endblock %}
+
+
+<!--scripts-->
+{% block scripts %}
+    {{ super() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/form-builder.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/modalFormScript.js')}}"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/sendData2.js')}}"></script>
+
+    <script src="{{ url_for('static', filename='workflowEditorFiles/node_configuration.js')}}"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/workflow_editor.js')}}"></script>
+    
+    
+
+{% endblock %}

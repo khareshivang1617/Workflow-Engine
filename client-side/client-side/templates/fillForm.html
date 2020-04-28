@@ -1,0 +1,47 @@
+{% extends "bootstrap/base.html" %}
+
+
+<!--title-->
+{% block title %}
+Fill Form
+{% endblock %}
+
+
+<!--metas-->
+{% block metas %}
+<meta charset="utf-8">
+{{ super() }}
+{% endblock %}
+
+<!--styles-->
+{% block styles %}
+{{ super() }}     
+{% endblock %}
+
+
+<!--content-->
+{% block content%}
+<form id="fb-render"></form>
+<button type="button" id="get-user-data">Submit</button>
+<input type="hidden" id="extractForm" name="extractForm" value="{{jsonFormData}}">
+
+<form method="POST" action="/fillForm/{{formType}}" id="responseSubmit" role="form">
+    <input type="hidden" id="response" name="response" value="3487">
+</form>
+
+{% endblock %}
+
+
+
+
+
+<!--scripts-->
+{% block scripts %}
+    {{ super() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script> 
+    <script src="{{ url_for('static', filename='fillFormFiles/form-render.min.js')}}  "></script>   
+    <script src="{{ url_for('static', filename='fillFormFiles/renderForm2.js')}}  "></script>
+    
+    
+{% endblock %}
