@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form manager</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/form-builder.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='workflowEditorFiles/extractFormData.js') }}"></script>
+</head>
+<body>
+  <div id="fb-editor"></div> 
+
+  <div id="build-wrap"></div>
+  <div class="setDataWrap">                  
+  <button id="getJSON" type="button">Done</button>                  
+  </div>
+</body>
+</html>

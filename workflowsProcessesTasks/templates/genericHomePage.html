@@ -1,0 +1,114 @@
+{% extends "bootstrap/base.html" %}
+
+
+<!--title-->
+{% block title %}
+    Home
+{% endblock %}
+
+
+<!--metas-->
+{% block metas %}
+<meta charset="utf-8">
+{{ super() }}
+{% endblock %}
+
+<!--styles-->
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='genericHomePageFiles/genericHomePageStylesheet.css')}}  ">    
+{{ super() }}     
+{% endblock %}
+
+
+{% block content%}
+
+
+<section class="navigation">
+  <div class="nav-container">
+    <!-- <div class="brand">
+      <a href="#!">Logo</a>
+    </div> -->
+    <nav>
+      <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+      <ul class="nav-list">
+        <li>
+          <a href="#!">Home</a>
+        </li>
+        <li>
+          <a href="#!">About</a>
+        </li>
+        <li>
+          <a href="#!">Workflow</a>
+          <ul class="nav-dropdown">
+            <li>
+              <a href="http://localhost:5000/workflowEditor">New workflow</a>
+            </li>
+            <li>
+              <a href="#!">Edit a workflow</a>
+            </li>
+            <li>
+              <a href="#!">Graphic Design</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#!">Tasks</a>
+          <ul class="nav-dropdown">
+            <li>
+              <a href="http://localhost:5000/initiateTask">Pending tasks</a>
+            </li>
+            <li>
+              <a href="#!">Edit a workflow</a>
+            </li>
+            <li>
+              <a href="#!">Graphic Design</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#!">Process</a>
+          <ul class="nav-dropdown">
+            <li>
+              <a id="process_init" href="http://localhost:5000/initiateProcess">Initiate a process</a>
+            </li>
+            <li>
+              <a href="#!">Web Development</a>
+            </li>
+            <li>
+              <a href="#!">Graphic Design</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#!">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<!-- <article>
+  <h2>Navigation</h2>
+  <p>Responsive Dropdown Navigation Bar.</p>
+  <p>Want to see how it's made? <a href="http://www.taniarascia.com/responsive-dropdown-navigation-bar/">Read the tutorial!</a></p>
+</article> -->
+
+
+
+
+{% endblock %}
+
+
+
+<!--scripts-->
+{% block scripts %}
+    {{ super() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>    
+    <script src="{{ url_for('static', filename='genericHomePageFiles/genericHomePageScript.js')}}  "></script>
+    
+    
+
+{% endblock %}
+
+

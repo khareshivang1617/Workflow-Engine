@@ -1,0 +1,88 @@
+
+
+@media screen {
+	#_loading {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		display: -webkit-flex;
+		-webkit-align-items: center;
+		-webkit-justify-content: center;
+		display: -ms-flexbox;
+		-ms-flex-align: center;
+		-ms-flex-pack: center;
+	}
+	.loaderFrame {
+		width: 100%;
+		max-width: 1200px;
+		min-width: 300px;
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		display: -webkit-flex;
+		-webkit-flex-flow: column nowrap;
+		-webkit-align-items: center;
+		-webkit-align-content: center;
+		-webkit-justify-content: center;
+		display: -ms-flexbox;
+		-ms-align-content: center;
+		-ms-flex-flow: column nowrap;
+		-ms-flex-align: center;
+		-ms-flex-pack: center;
+	}
+	.loader {
+		margin: auto;
+		width: 70px;
+		text-align: center;
+	}
+	.loaderFrame>svg {
+		height: 200px;
+	}
+	.loader>div {
+		width: 18px;
+		height: 18px;
+		background-color: #333;
+		border-radius: 100%;
+		display: inline-block;
+		-webkit-animation: sdui-bouncedelay 1.2s infinite ease-in-out both;
+		animation: sdui-bouncedelay 1.2s infinite ease-in-out both;
+	}
+	.loader .bounce1 {
+		-webkit-animation-delay: -0.32s;
+		animation-delay: -0.32s;
+	}
+	.loader .bounce2 {
+		-webkit-animation-delay: -0.16s;
+		animation-delay: -0.16s;
+	}
+	@-webkit-keyframes sdui-bouncedelay {
+		0%,
+		80%,
+		100% {
+			-webkit-transform: scale(0)
+		}
+		40% {
+			-webkit-transform: scale(1.0)
+		}
+	}
+	@keyframes sdui-bouncedelay {
+		0%,
+		80%,
+		100% {
+			-webkit-transform: scale(0);
+			transform: scale(0);
+		}
+		40% {
+			-webkit-transform: scale(1.0);
+			transform: scale(1.0);
+		}
+	}
+}
+
