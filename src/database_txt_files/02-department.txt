@@ -1,11 +1,9 @@
 /* read only */
 
-CREATE OR REPLACE FUNCTION update_dep_name() RETURNS TRIGGER AS
-$$
-BEGIN
+
 /* cannot create new department with the same name of the deleted department */
 /* on deleting the department all the employees, roles, workflows and pending applications associated with it gets deleted */
-/* DON'T UPDATE OR DELETE DEPARTMENT */
+/* Check it again:- DON'T UPDATE OR DELETE DEPARTMENT */
 
 /*******************************************************************************************************/
 

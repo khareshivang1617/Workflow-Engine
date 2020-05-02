@@ -36,6 +36,7 @@ def login():
             # store the login position details in session as session['login_employee']
             session['login_employee'] = temp
             session['emailid'] = email
+            session['employee_typ'] = employee_type
 
             if employee_type == 'role_dept':
                 cursor.execute("SELECT username FROM employees WHERE employee_email_id = '"+ temp[2]+"'")

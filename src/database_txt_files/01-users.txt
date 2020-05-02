@@ -1,7 +1,7 @@
 /* read only */
 
 /* All the users of the system are stored in the users table, a user can be employee or system-admin/admin/supervisor */
-/* All the usernames should be unique whether it is deletd or not */
+/* All the usernames should be unique whether it is deleted or not */
 
 
 /**************************************************************************************************************/

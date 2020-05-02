@@ -31,6 +31,10 @@ except Exception as error:
 from .views.system_admin import system_admin_bp
 from .views.login import login_bp
 from .views.register import register_bp
+from .views.employee import employee_bp
+from .views.common_views import common_views_bp
 app.register_blueprint(system_admin_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(register_bp)
+app.register_blueprint(common_views_bp)
+app.register_blueprint(employee_bp)

@@ -1,20 +1,24 @@
 /* read only */
 /* An employee holding a post can be temporarily reassigned */
+/* It is possible that no person is there on a role  for some duration*/
+
 
 
 /*********************************************************************************************************/
 
+/* update,delete,insert allowed */
 CREATE TABLE employees_holding_post_associated_with_department(
     role_email_id VARCHAR NOT NULL PRIMARY KEY,
     password TEXT NOT NULL,
-    employee_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT,
+    employee_email_id VARCHAR REFERENCES employees(employee_email_id) UNIQUE ON DELETE RESTRICT,
     department VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     role_created_on_date DATE DEFAULT CURRENT_DATE NOT NULL,
-    reassigned_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT DEFAULT NULL,
-    duration INTERVAL DEFAULT NULL,
-    date_of_reassignment DATE DEFAULT NULL, 
+    /*reassigned_email_id VARCHAR REFERENCES employees(employee_email_id) ON DELETE RESTRICT DEFAULT NULL,*/
+    /* duration INTERVAL DEFAULT NULL,
+    date_of_reassignment DATE DEFAULT NULL, */
     role_name VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
-    employee_assigned_post_date DATE DEFAULT CURRENT_DATE NOT NULL
+    employee_assigned_post_date DATE DEFAULT NULL,
+    notification BOOLEAN DEFAULT TRUE NOT NULL
 );
 
 CREATE TABLE is_role_deleted(
@@ -24,7 +28,7 @@ CREATE TABLE is_role_deleted(
 
 CREATE TABLE deleted_roles(
     role_email_id VARCHAR NOT NULL PRIMARY KEY,
-    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) NOT NULL,
+    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) ON UPDATE CASCADE NOT NULL,
     role_created_on_date DATE NOT NULL,
     role_ended_on_date DATE NOT NULL DEFAULT CURRENT_DATE,
     role_name VARCHAR(100) NOT NULL
@@ -32,17 +36,19 @@ CREATE TABLE deleted_roles(
 
 CREATE TABLE changed_employees_on_role(
     role_email_id VARCHAR REFERENCES is_role_deleted(role_email_id) NOT NULL,
-    employee_email_id VARCHAR REFERENCES is_employee_deleted(employee_email_id) NOT NULL,
+    employee_email_id VARCHAR REFERENCES is_employee_deleted(employee_email_id) ON UPDATE CASCADE NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
+/*
 CREATE TABLE reassignment_history_on_role(
     role_email_id VARCHAR REFERENCES is_role_deleted(role_email_id) NOT NULL,
     employee_email_id VARCHAR REFERENCES is_employee_deleted(employee_email_id) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL DEFAULT CURRENT_DATE    
 );
+*/
 
 /********************************************************************************************************************/
 
@@ -96,9 +102,9 @@ BEGIN
         INSERT INTO changed_employees_on_role(role_email_id,employee_email_id,start_date) VALUES (OLD.role_email_id, OLD.employee_email_id, OLD.start_date);
     END IF;
 
-    IF OLD.reassigned_email_id <> NEW.reassigned_email_id THEN
+    /* IF OLD.reassigned_email_id <> NEW.reassigned_email_id THEN
         INSERT INTO reassignment_history_on_role(role_email_id,employee_email_id,start_date) VALUES (OLD.role_email_id, OLD.reassigned_email_id,OLD.date_of_reassignment);
-    END IF;
+    END IF;*/
 
     RETURN NEW;
 END;

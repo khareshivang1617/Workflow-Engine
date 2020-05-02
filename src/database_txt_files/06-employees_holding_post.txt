@@ -1,5 +1,7 @@
 /* read only */
 /* before registering the employee of this type first add him as a user in users table */
+/* no user is assigned a role */
+/* if a user is assigned a role then set its start_date */
 
 /***************************************************************************************************/
 
@@ -8,15 +10,17 @@ CREATE TABLE employees_holding_post_not_associated_with_department(
     post_email_id VARCHAR NOT NULL PRIMARY KEY,
     password TEXT NOT NULL,
     username VARCHAR(255) REFERENCES users(username) ON DELETE RESTRICT,
-    start_date DATE DEFAULT CURRENT_DATE NOT NULL,
-    role_name VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name) ON DELETE CASCADE NOT NULL
+    created_on DATE DEFAULT CURRENT_DATE NOT NULL,
+    start_date DATE DEFAULT NULL,
+    role_name VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name) ON DELETE CASCADE  ON UPDATE CASCADE NOT NULL
 );
 
 CREATE TABLE changed_employees_on_post_not_associated_with_department(
     post_email_id VARCHAR REFERENCES employees_holding_post_not_associated_with_department(post_email_id) NOT NULL,
     username VARCHAR(255) REFERENCES is_user_deleted(username),
     start_date DATE NOT NULL,
-    end_date DATE DEFAULT CURRENT_DATE NOT NULL
+    end_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    role_name VARCHAR(100) NOT NULL
 );
 
 /***************************************************************************************************/
@@ -25,7 +29,7 @@ CREATE OR REPLACE FUNCTION populate_changed_employees() RETURNS TRIGGER AS
 $$
 BEGIN
     IF OLD.username <> NEW.username THEN
-        INSERT INTO changed_employees_on_post_not_associated_with_department(post_email_id,username,start_date) VALUES (OLD.post_email_id, OLD.username, OLD.start_date);
+        INSERT INTO changed_employees_on_post_not_associated_with_department(post_email_id,username,start_date,role_name) VALUES (OLD.post_email_id, OLD.username, OLD.start_date,OLD.role_name);
     END IF;
     RETURN NEW;   
 END;

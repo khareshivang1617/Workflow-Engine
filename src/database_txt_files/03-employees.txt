@@ -10,7 +10,7 @@
 CREATE TABLE employees(
     employee_email_id VARCHAR NOT NULL PRIMARY KEY,
     password text NOT NULL,
-    username VARCHAR(255) REFERENCES users(username) ON DELETE CASCADE NOT NULL,
+    username VARCHAR(255) REFERENCES users(username) UNIQUE ON DELETE CASCADE NOT NULL ,
     department VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     notification BOOLEAN NOT NULL DEFAULT TRUE
 );
@@ -19,7 +19,7 @@ CREATE TABLE employees(
 CREATE TABLE is_employee_deleted(
     employee_email_id VARCHAR NOT NULL PRIMARY KEY,
     is_deleted BOOLEAN DEFAULT FALSE NOT NULL,
-    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) NOT NULL,
+    department_name VARCHAR(100) REFERENCES is_department_deleted(department_name) ON UPDATE CASCADE NOT NULL,
     username VARCHAR(255) REFERENCES is_user_deleted(username) NOT NULL
 );
 

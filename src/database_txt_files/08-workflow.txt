@@ -4,6 +4,7 @@
 
 /************************************************************************************************************/
 
+/* update,insert,delete is allowed */
 CREATE TABLE workflow_details(
     workflow_id SERIAL PRIMARY KEY,
     workflow_name VARCHAR(100) NOT NULL,
@@ -20,15 +21,16 @@ CREATE TABLE workflow_editors(
     post_email_id VARCHAR REFERENCES employees_holding_post_not_associated_with_department(post_email_id) NOT NULL 
 );
 
+/* put role_name = 'employee' and department for the employees */
 CREATE TABLE workflow_accessed_by_emp_and_role_dept(
     workflow_id INTEGER REFERENCES workflow_details(workflow_id)  ON DELETE CASCADE NOT NULL,
-    role_name  VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE NOT NULL ,
-    department_name VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE
+    role_name  VARCHAR(100) REFERENCES roles_associated_with_department(role_name) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL ,
+    department_name VARCHAR(100) REFERENCES departments(department_name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE workflow_accessed_by_role(
     workflow_id INTEGER REFERENCES workflow_details(workflow_id) ON DELETE CASCADE NOT NULL ,
-    role_name  VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name)  ON DELETE CASCADE NOT NULL
+    role_name  VARCHAR(100) REFERENCES roles_not_associated_with_department(role_name)  ON DELETE CASCADE ON UPDATE CASCADE NOT NULL
 );
 
 CREATE TABLE is_workflow_deleted(
@@ -38,12 +40,16 @@ CREATE TABLE is_workflow_deleted(
 
 /* can't delete a role which is involved in a workflow */
 /*  BUT when we delete a dep than all its workflows and roles gets deleted */
+/* update,insert,delete allowed */
 CREATE TABLE workflow_node(
     workflow_id INTEGER REFERENCES workflow_details(workflow_id) ON DELETE CASCADE NOT NULL, 
     stage INTEGER NOT NULL ,
     role_email_id VARCHAR REFERENCES all_email(email) ON DELETE RESTRICT NOT NULL,
     notification BOOLEAN DEFAULT TRUE NOT NULL,
     duration INTERVAL DEFAULT NULL,
+    reassign_role_email_id VARCHAR REFERENCES all_email(email) ON DELETE RESTRICT DEFAULT NULL,
+    can_take_decision BOOLEAN DEFAULT FALSE NOT NULL,
+    reassigned_on DATE DEFAULT NULL,
     PRIMARY KEY(workflow_id, stage)
 );
 

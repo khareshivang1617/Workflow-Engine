@@ -1,14 +1,16 @@
 /* read only */
 /* on deleting a department all the workflows and applications related to it gets deleted */
-/* on  deleting a pending application its corresponding rows in action_on_application table and all_applications gets deleted */
+/* on deleting a pending application its corresponding rows in action_on_application table and all_applications gets deleted */
 
 
 /**************************************************************************************************/
 
 CREATE TYPE action_type AS ENUM(
     'pending',
-    'approved',
-    'rejected'
+    'approve',
+    'reject',
+    'forward',
+    'revert'
 );
 
 
@@ -38,7 +40,9 @@ CREATE TABLE action_on_application(
     action_by_email VARCHAR NOT NULL,     
     action_by_username  VARCHAR(100) REFERENCES is_user_deleted(username) NOT NULL,
     date_of_action DATE DEFAULT CURRENT_DATE NOT NULL,
+    date_of_assignment DATE NOT NULL,
     comments TEXT DEFAULT NULL,
+    action action_type NOT NULL,
     PRIMARY KEY(stage, application_id)
 );
 
@@ -105,7 +109,7 @@ EXECUTE PROCEDURE delete_from_all_applications();
 
 /* later store document in the table */
 /* only one application can be launched by a  person of a particular workflow at a time*/
-/* Assumption: Atleast one node should be there on path leaving owner */
+/* Assumption: Atleast one node should be there on path other than owner */
 CREATE OR REPLACE PROCEDURE launch_new_application(workflow_id INTEGER, la_email_id VARCHAR, application_form_data json, comments TEXT)
 LANGUAGE plpgsql
 AS $$
@@ -137,15 +141,23 @@ $$;
 
 /* call this function every time to check whether the current stage is last or not */
 CREATE OR REPLACE FUNCTION can_approve_or_reject(la_current_stage INTEGER, la_workflow_id INTEGER) RETURNS BOOLEAN AS $$
-DECLARE final_stage INTEGER;
-BEGIN
-	SELECT MAX(stage) INTO final_stage FROM workflow_node GROUP BY workflow_id HAVING workflow_id = la_workflow_id; 
+DECLARE 
+    final_stage INTEGER;
+    val BOOLEAN;
 
-    IF final_stage = la_current_stage THEN
+BEGIN
+    SELECT can_take_decision INTO val FROM workflow_node WHERE workflow_id = la_workflow_id AND stage = la_current_stage;
+    IF val = TRUE THEN
         RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;        
+    ELSE    
+        SELECT MAX(stage) INTO final_stage FROM workflow_node GROUP BY workflow_id HAVING workflow_id = la_workflow_id; 
+
+        IF final_stage = la_current_stage THEN
+            RETURN TRUE;
+        ELSE
+            RETURN FALSE;
+        END IF;   
+    END IF;         
 END; $$
 LANGUAGE PLPGSQL;
 
@@ -176,23 +188,30 @@ $$;
 /*********************************************************************************************************************************************************************
 
 
-/* call this procedure only when application is on the last stage and check if it is working correctly or not */
+/* call this procedure only when application is on the last stage or when the person has the right to take decision and check if it is working correctly or not */
 CREATE OR REPLACE PROCEDURE approve_or_reject(la_app_id INTEGER , comments TEXT, la_email_id VARCHAR, la_username VARCHAR(255), action action_type)
 LANGUAGE plpgsql
 AS $$
 DECLARE 
     la_current_stage INTEGER;
     la_row record;
+    final_stage INTEGER;
+    wrk_id INTEGER;
 
 BEGIN
-    SELECT current_stage INTO la_current_stage FROM pending_applications WHERE application_id = la_app_id;
-    UPDATE pending_applications SET status = action WHERE application_id = la_app_id;
-    UPDATE all_applications SET approved_or_rejected = action WHERE application_id = la_app_id;
-    INSERT INTO action_on_application VALUES (la_app_id, la_current_stage, la_email_id, la_username, DEFAULT, comments);
-    SELECT * INTO la_row FROM pending_applications WHERE application_id = la_app_id;
-    INSERT INTO closed_applications VALUES (la_row.application_id, la_row.workflow_id, la_row.initiated_by_email, la_row.username, la_row.time_stamp, DEFAULT, la_row.status, la_row.application_form_data);
-    DELETE FROM pending_applications WHERE application_id = la_app_id;
+    SELECT current_stage,workflow_id INTO la_current_stage,wrk_id FROM pending_applications WHERE application_id = la_app_id;
+    SELECT MAX(stage) INTO final_stage FROM workflow_node GROUP BY workflow_id HAVING workflow_id = wrk_id; 
+    IF final_stage = la_current_stage OR action = 'reject' THEN 
+        UPDATE pending_applications SET status = action WHERE application_id = la_app_id;
+        UPDATE all_applications SET approved_or_rejected = action WHERE application_id = la_app_id;
+        INSERT INTO action_on_application VALUES (la_app_id, la_current_stage, la_email_id, la_username, DEFAULT, comments);
+        SELECT * INTO la_row FROM pending_applications WHERE application_id = la_app_id;
+        INSERT INTO closed_applications VALUES (la_row.application_id, la_row.workflow_id, la_row.initiated_by_email, la_row.username, la_row.time_stamp, DEFAULT, la_row.status, la_row.application_form_data);
+        DELETE FROM pending_applications WHERE application_id = la_app_id;
+    ELSE
+        CALL forward(la_app_id,comments,la_email_id,la_username);
 
+    END IF;    
     COMMIT;
 END;
 $$;    
