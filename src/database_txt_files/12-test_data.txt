@@ -1,0 +1,34 @@
+INSERT INTO users(username,name) VALUES('anthony_admin1','Anthony Achille');
+INSERT INTO users(username,name) VALUES('mark_admin2','Mark Twain');
+INSERT INTO users(username,name) VALUES('system_admin','Albert Pinto');
+INSERT INTO users(username,name) VALUES('system_supervisor','Rony Ray');
+INSERT INTO users(username,name) VALUES('oliver_employee','Oliver');
+INSERT INTO users(username,name) VALUES('sam_employee','Sam');
+INSERT INTO users(username,name) VALUES('Noah_employee','Noah');
+INSERT INTO users(username,name) VALUES('system_role_dept','Ethan');
+INSERT INTO users(username,name) VALUES('mia_role','Mia');
+
+
+DELETE FROM users WHERE username = 'mark_admin2';
+
+INSERT INTO departments VALUES ('IT'),('Production'),('Sales and Marketing');
+
+UPDATE departments SET department_name = 'Human Resource' WHERE department_name='Production';
+
+DELETE FROM departments WHERE department_name = 'IT';
+
+INSERT INTO employees VALUES ('oliver@gmail.com',crypt('password', gen_salt('bf')),'oliver_employee','Human Resource',DEFAULT);
+INSERT INTO employees VALUES ('sam@gmail.com',crypt('password', gen_salt('bf')),'sam_employee','Sales and Marketing',DEFAULT);
+INSERT INTO employees VALUES ('noah@gmail.com',crypt('password', gen_salt('bf')),'Noah_employee','Human Resource',DEFAULT);
+
+
+/* TO delete a employee only execute this command */
+DELETE FROM users WHERE username = 'oliver';
+
+INSERT INTO roles_associated_with_department VALUES ('Manager'),('Senior Executive'),('Employee');
+INSERT INTO roles_not_associated_with_department VALUES ('Admin'),('System Admin'),('Supervisor'),('Vice President'),('President');
+
+INSERT INTO employees_holding_post_associated_with_department VALUES ('sales_manager@gmail.com',crypt('password', gen_salt('bf')),'sam@gmail.com','Sales and Marketing',DEFAULT,'Manager',DEFAULT,DEFAULT);
+INSERT INTO employees_holding_post_associated_with_department VALUES ('human_resources_manager@gmail.com',crypt('password', gen_salt('bf')),'noah@gmail.com','Human Resource',DEFAULT,'Manager',DEFAULT,DEFAULT);
+
+INSERT INTO employees_holding_post_not_associated_with_department VALUES('sys_admin@gmail.com',crypt('password', gen_salt('bf')),'system_admin',DEFAULT,DEFAULT,'System Admin');
