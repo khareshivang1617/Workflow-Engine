@@ -7,12 +7,13 @@
     <thead>
       <tr>
         <!-- <th scope="col"> # </th>  -->
-        <th scope="col">Post EmailID</th>
-        <th scope="col">Username</th>
+        <th scope="col">Role EmailID</th>
+        <th scope="col">Employee  Email ID</th>
+        <th scope="col">Department</th>
         <th scope="col">Created On</th>
-        <th scope="col">Tenure Started On</th>
-        <th scope="col">Role</th>
-        <th>Change User on Role</th>
+        <th scope="col">Role Name</th>
+        <th scope="col">Start Date of Tenure</th>
+        <th>Change Employee</th>
       </tr>
     </thead>
     <tbody>
@@ -24,7 +25,8 @@
         <td>{{item[3]}}</td>
         <td>{{item[4]}}</td>
         <td>{{item[5]}}</td>
-        <td><a href="{{ url_for('system_admin.edit_assigned_role', post_email_id = item[0] ) }}" class="btn btn-default pull-right">Edit</a></td>
+        <td>{{item[6]}}</td>
+        <td><a href="{{ url_for('system_admin.edit_assigned_dept_role', role_email_id = item[0] ) }}" class="btn btn-default pull-right">Edit</a></td>
       </tr>
       {% endfor %}
     </tbody>
