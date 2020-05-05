@@ -1,0 +1,41 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+
+<form action="{{ url_for('system_admin.add_non_dept_roles') }}" method="post">
+        <p>Role Name :</p>
+        <p><input type="text" name="role_name" /></p>
+        <p><input type="submit" value="submit"/></p>
+ </form>
+
+ <br>
+ <hr>
+
+ <table class="table table-striped">
+        <thead>
+               <tr>
+                          <!-- <th scope="col"> # </th>  -->
+                          <th scope="col">Role</th>
+                          <th></th>
+                          <th></th>
+               </tr>
+        </thead>
+        <tbody>
+                              {% for item in role_data %}
+               <tr>
+                      <!-- <th scope="row">1</th> -->
+               <td>{{item[0]}}</td>
+                <td><a href="#" class="btn btn-default pull-right">Edit</a></td>
+               <td>
+                      <form action="{{ url_for('system_admin.delete_non_dept_role', role_name = item[0]  ) }}" method=POST>
+                             <input type="hidden" name="_method" value="DELETE">
+                             <input type="submit" value="Delete" class="btn btn-danger">
+                      </form>
+               </td>
+               </tr>
+                        {% endfor %}
+        </tbody>
+ </table>
+              
+
+{% endblock %}
