@@ -23,7 +23,7 @@ def workflowEditor():
         JSONworkflowDetails = request.form['workflow_details']
         print(JSONworkflowDetails)
 
-    admins = cursor.execute('SELECT post_email_id FROM employees_holding_post_not_associated_with_department WHERE role_name = 'admin')  
+    admins = cursor.execute("SELECT post_email_id FROM employees_holding_post_not_associated_with_department WHERE role_name = 'admin'")  
     # admins = ["admin1", "admin2", "admin3", "admin4", "admin5"]#this thing will be fetched from database
     role_dept = [["role_1","dept_1"],["role_2","dept_2"],["role_3","dept_3"],["role_4","dept_4"],["role_5","dept_5"]]#also fetched from the database
     roles = ["role_1","role_2","role_3","role_4","role_5"]#roles without any dept also fetched from the database
