@@ -12,29 +12,52 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('system_admin.home_page')}}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('system_admin.add_roles')}}">Add Roles</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('system_admin.add_departments')}}">Add Departments</a>
-            </li>
-            <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('system_admin.show_departments')}}">Show Departments</a>
-                  </li>
                   <li class="nav-item active">
-                        <a class="nav-link" href="{{url_for('system_admin.show_all_roles')}}">Show Roles</a>
-                      </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('system_admin.assign_emp_on_role')}}">Assign Roles</a>
-                  </li>
-                  <li class="nav-item active">
-                      <a class="nav-link" href="{{url_for('system_admin.show_assigned_role')}}">Display Assigned Roles</a>
+                      <a class="nav-link" href="{{url_for('system_admin.RD_employees')}}">Employees</a>
                     </li>
                     <li class="nav-item active">
                       <a class="nav-link" href="{{url_for('system_admin.registration_requests')}}">Registration Requests</a>
                     </li>
-            
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Roles
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{url_for('system_admin.show_all_roles')}}">Show Roles</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{url_for('system_admin.add_non_dept_roles')}}">Non-Dept Roles</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{url_for('system_admin.add_dept_roles')}}">Departmental Roles</a>
+                          <div class="dropdown-divider"></div>
+                        </div>
+                      </li>
 
+                      <li class="nav-item dropdown active">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Department
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{url_for('system_admin.CRD_departments')}}">Department Actions</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{url_for('system_admin.show_departments')}}">Show Departments</a>
+                            
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Assign Roles
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{{url_for('system_admin.assign_emp_non_dept_role')}}">Assign Non-Dept Roles</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{{url_for('system_admin.assign_emp_dept_role')}}">Assign Dept Roles</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{{url_for('system_admin.show_assigned_role')}}">Show Assigned Roles</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{{url_for('system_admin.show_assigned_dept_role')}}">Show Assigned Dept Roles</a>
+                              
+                            </div>
+                          </li>
             
           </ul>
         </div>
