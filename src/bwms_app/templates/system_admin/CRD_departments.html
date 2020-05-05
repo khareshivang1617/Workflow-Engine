@@ -1,0 +1,38 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+<form action="{{ url_for('system_admin.CRD_departments') }}" method="post">
+              <p>Department Name:</p>
+              <p><input type="text" name="department" /></p>
+              <p><input type="submit" value="submit"/></p>
+       </form>
+
+<table class="table table-striped">
+       <thead>
+              <tr>
+                         <!-- <th scope="col"> # </th>  -->
+                         <th scope="col">Department Name</th>
+                         <th scope="col">Start Date</th>
+                         <th></th>
+                         <th></th>
+              </tr>
+       </thead>
+       <tbody>
+                             {% for item in data %}
+              <tr>
+                     <!-- <th scope="row">1</th> -->
+              <td>{{item[0]}}</td>
+              <td>{{item[1]}}</td>
+               <td><a href="#" class="btn btn-default pull-right">Edit</a></td>
+              <td>
+                     <form action="{{ url_for('system_admin.delete_department', department_name = item[0]  ) }}" method=POST>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                     </form>
+              </td>
+              </tr>
+                       {% endfor %}
+       </tbody>
+</table>
+             
+{% endblock %}
