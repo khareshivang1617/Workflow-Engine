@@ -1,0 +1,35 @@
+{% extends 'system_admin/home_page.html' %}
+
+{% block content %}
+
+<table class="table table-striped">
+       <thead>
+              <tr>
+                         <!-- <th scope="col"> # </th>  -->
+                         <th scope="col">Employee Email id</th>
+                         <th scope="col">User</th>
+                         <th scope="col">Department</th>
+                         <th></th>
+                         
+              </tr>
+       </thead>
+       <tbody>
+                             {% for item in data %}
+              <tr>
+                   
+              <td>{{item[0]}}</td>
+              <td>{{item[2]}}</td>
+              <td>{{item[3]}}</td>
+              
+              <td>
+                     <form action="{{ url_for('system_admin.delete_employee', username = item[2]  ) }}" method=POST>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                     </form>
+              </td>
+              </tr>
+                       {% endfor %}
+       </tbody>
+</table>
+             
+{% endblock %}
